@@ -12,6 +12,19 @@ macro_rules! print_function_name {
     };
 }
 
+/// Simple print macro for functions based around `print_and_check` function
+/// Its format is such:
+/// ```
+/// group_print!(
+///     function_name, [and sort,] // Option for solutions where order does not matter
+///     [input, input, etc.;] output, // Could be single or multiple inputs or none
+///     [input, input, etc.;] output,
+///     ...
+///     [input, input, etc.;] output
+/// )
+/// ```
+///
+/// `group_test` is equivalent in everything except that it focuses around asserts instead
 macro_rules! group_print {
     ($func:expr, $expected:expr) =>
     {
@@ -105,6 +118,17 @@ fn hab_693() {
         5; true,
         7; false,
         11; false
+    );
+}
+
+#[test]
+fn bc_991() {
+    group_print!(
+        broken_calc,
+        2, 3; 2,
+        5, 8; 2,
+        3, 10; 3,
+        1, 1_000_000_000; 39
     );
 }
 
