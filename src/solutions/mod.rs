@@ -131,12 +131,27 @@ pub fn broken_calc(start_value: i32, target: i32) -> i32 {
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`
 ///
 /// # Idea
-/// Try something similar to 2078.
+/// Navigate list from right to left, keep max and min, update min when max is updated to make sure
+/// largest to the right is kept. Keep best combo of max and min you know.
 ///
 /// # Conclusion
-/// _
+/// Original idea was correct. This solution specificily works and is nearly equal to the best solution in terms of perfomance and time, however,
+/// its shortcomings are being quite more verbose than the best version where we only utilize min, n, and best on a normal unreversed list.
 pub fn maximum_difference(nums: Vec<i32>) -> i32 {
-    todo!()
+    let (i, f) = (nums[0], nums[nums.len() - 1]);
+    let (mut min, mut max, mut best) = (f, f - 1, -1);
+    for n in nums.into_iter().rev() {
+        if n >= max && n != i {
+            max = n;
+            min = n + 1
+        } else if n <= min {
+            min = n
+        }
+        if (max - min) > best {
+            best = max - min
+        }
+    }
+    best
 }
 
 /// 2078. Two Furthest Houses With Different Colors - `Easy`
@@ -157,11 +172,7 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
     while colors[i] == colors[len - 1] {
         i += 1;
     }
-    if l > (len - i - 1) {
-        l as i32
-    } else {
-        (len - i - 1) as i32
-    }
+    (if l > (len - i - 1) { l } else { (len - i - 1) }) as i32
 }
 
 /// 2485. Find the Pivot Integer - `Easy`

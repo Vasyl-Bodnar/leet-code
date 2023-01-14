@@ -99,14 +99,7 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
     )
 }
 
-fn main() {
-    group_print!(
-        maximum_difference,
-        vec![7,1,5,4]; 4,
-        vec![9,4,3,2]; -1,
-        vec![1,5,2,10]; 9
-    );
-}
+fn main() {}
 
 // Solved problems become tests
 // Due to group_print and group_test macros being essentially the same,
@@ -164,6 +157,17 @@ fn bc_991() {
         5, 8; 2,
         3, 10; 3,
         1, 1_000_000_000; 39
+    );
+}
+
+#[test]
+fn md_2016() {
+    group_test!(
+        maximum_difference,
+        vec![87,68,91,86,58,63,43,98,6,40]; 55,
+        vec![7,1,5,4]; 4,
+        vec![9,4,3,2]; -1,
+        vec![1,5,2,10]; 9
     );
 }
 
