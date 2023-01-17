@@ -99,6 +99,16 @@ pub fn has_alternating_bits(n: i32) -> bool {
     .contains(&n)
 }
 
+/// 941. Valid Mountain Array - Easy
+///
+/// #Idea
+/// _
+/// #Conclusion
+/// _
+pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
+    todo!() 
+}
+
 /// 991. Broken Calculator - `Medium`
 ///
 /// # Idea
@@ -126,6 +136,23 @@ pub fn broken_calc(start_value: i32, target: i32) -> i32 {
         };
     }
     op_num + (start_value - targ)
+}
+
+/// 1299. Replace Elements with Greatest Element on Right Side - `Medium`
+///
+/// # Idea
+/// Go through array from right to left, keeping max value, and replacing elements
+///
+/// # Conclusion
+/// Perfect Solution, one optimization is using array instead of a vector as size is known
+/// and it can avoid the extra reverse at the end, but implementation itself would still be the same
+pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
+    let (mut ans, mut max) = (vec![],-1);
+    for i in arr.into_iter().rev() {
+        ans.push(max);
+        max = std::cmp::max(i, max)
+    }
+    ans.into_iter().rev().collect()
 }
 
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`
@@ -173,6 +200,16 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
         i += 1;
     }
     (if l > (len - i - 1) { l } else { (len - i - 1) }) as i32
+}
+
+/// 2404. Most Frequent Even Element - Easy
+///
+/// #Idea
+/// _
+/// #Conclusion
+/// _
+pub fn most_frequent_even(nums: Vec<i32>) -> i32 {
+    todo!() 
 }
 
 /// 2485. Find the Pivot Integer - `Easy`

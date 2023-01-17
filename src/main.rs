@@ -99,7 +99,20 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
     )
 }
 
-fn main() {}
+fn main() {
+    group_print!(
+        most_frequent_even,
+        vec![0,1,2,2,4,4,1]; 2,
+        vec![4,4,4,9,2,4]; 4,
+        vec![29,47,21,41,13,37,25,7]; 1
+    );
+    group_print!(
+        valid_mountain_array,
+        vec![2,1]; false,
+        vec![3,5,5]; false,
+        vec![0,3,2,1]; true
+    );
+}
 
 // Solved problems become tests
 // Due to group_print and group_test macros being essentially the same,
@@ -151,12 +164,21 @@ fn hab_693() {
 
 #[test]
 fn bc_991() {
-    group_print!(
+    group_test!(
         broken_calc,
         2, 3; 2,
         5, 8; 2,
         3, 10; 3,
         1, 1_000_000_000; 39
+    );
+}
+
+#[test]
+fn re_1299() {
+    group_test!(
+        replace_elements, 
+        vec![17,18,5,4,6,1]; vec![18,6,6,6,1,-1],
+        vec![400]; vec![-1]
     );
 }
 
