@@ -101,6 +101,12 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
+        is_match, and apply String::from,
+        "aa", "a"; false,
+        "aa", "a*"; true,
+        "ab", ".*"; true
+    );
+    group_print!(
         most_frequent_even,
         vec![0,1,2,2,4,4,1]; 2,
         vec![4,4,4,9,2,4]; 4,

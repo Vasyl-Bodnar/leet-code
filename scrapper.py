@@ -45,7 +45,7 @@ def get_title_and_num(driver):
         0
     ]
     return (
-        " - ".join([simple_title.text, difc.text]),
+        " - ".join([simple_title.text, "`" + difc.text + "`"]),
         int(simple_title.text.partition(".")[0]),
     )
 
@@ -54,7 +54,7 @@ def get_tests(driver):
     good_exms = [
         [
             s.replace("[", "vec![")
-            for s in re.compile(r'\[[\[(\d+,*)*\],*]*\]|\d+|"\w+"|true|false').findall(
+            for s in re.compile(r'\[[\[(\d+,*)*\],*]*\]|\d+|".*?"|true|false').findall(
                 ex.text.partition("Explanation")[0]
             )
         ]
@@ -102,9 +102,9 @@ def process_solution(full_title, func):
         [
             "/// " + full_title,
             "///",
-            "/// #Idea",
+            "/// # Idea",
             "/// _",
-            "/// #Conclusion",
+            "/// # Conclusion",
             "/// _",
             func,
         ]
@@ -148,6 +148,7 @@ def write_tests(test_insert):
         file.write(content)
 
 
+# TODO: Add Support for Adding Things to README.md file
 if __name__ == "__main__":
     # Load page from arguments,
     web_driver = driver_setup(True)

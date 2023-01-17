@@ -23,9 +23,20 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     unreachable!()
 }
 
+/// 10. Regular Expression Matching - `Hard`
+///
+/// # Idea
+/// _
+/// # Conclusion
+/// _
+pub fn is_match(s: String, p: String) -> bool {
+    todo!() 
+}
+
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`
 ///
 /// # Idea
+///
 /// ```
 /// nums.into_iter().min().unwrap()
 /// ```
@@ -34,6 +45,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 /// for finding the smallest one.
 ///
 /// # Conclusion
+///
 /// The solution is indeed a binary search, I used a recursive solution, though
 /// the one that is usually used is while loop based, with little difference in perfomance.
 pub fn find_min(nums: Vec<i32>) -> i32 {
@@ -99,11 +111,11 @@ pub fn has_alternating_bits(n: i32) -> bool {
     .contains(&n)
 }
 
-/// 941. Valid Mountain Array - Easy
+/// 941. Valid Mountain Array - `Easy`
 ///
-/// #Idea
+/// # Idea
 /// _
-/// #Conclusion
+/// # Conclusion
 /// _
 pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
     todo!() 
@@ -202,11 +214,11 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
     (if l > (len - i - 1) { l } else { (len - i - 1) }) as i32
 }
 
-/// 2404. Most Frequent Even Element - Easy
+/// 2404. Most Frequent Even Element - `Easy`
 ///
-/// #Idea
+/// # Idea
 /// _
-/// #Conclusion
+/// # Conclusion
 /// _
 pub fn most_frequent_even(nums: Vec<i32>) -> i32 {
     todo!() 
