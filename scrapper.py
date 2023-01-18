@@ -54,8 +54,9 @@ def get_tests(driver):
     good_exms = [
         [
             s.replace("[", "vec![")
-            for s in re.compile(r'\[[\[(\d+,*)*\],*]*\]|\d+|".*?"|true|false').findall(
-                ex.text.partition("Explanation")[0]
+            for s in re.findall(
+                r'\[[\[(-*\d+,*)(".*?")(true|false)\]]*\]|-*\d+,*|".*?"|true|false',
+                ex.text.partition("Explanation")[0],
             )
         ]
         for ex in driver.find_elements(By.TAG_NAME, "pre")

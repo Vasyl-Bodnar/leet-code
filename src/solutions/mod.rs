@@ -1,4 +1,7 @@
+//// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution, instead
+//// of just copying a better solution, unless my original was quite bad or did not pass all cases
 #![allow(unused)]
+use std::cmp::{max, min};
 use std::collections::HashMap;
 
 /// 1. Two Sum - `Easy`
@@ -13,7 +16,7 @@ use std::collections::HashMap;
 /// and no set undefined answer is given (like empty vector or -1)
 /// this is the only right answer to the problem in that case.
 pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-    let mut hash = HashMap::<i32, i32>::new();
+    let mut hash: HashMap<i32, i32> = HashMap::new();
     for (i, x) in nums.into_iter().enumerate() {
         if let Some(val) = hash.get(&(target - x)) {
             return vec![i as i32, *val];
@@ -30,7 +33,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 /// # Conclusion
 /// _
 pub fn is_match(s: String, p: String) -> bool {
-    todo!() 
+    todo!()
 }
 
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`
@@ -114,11 +117,37 @@ pub fn has_alternating_bits(n: i32) -> bool {
 /// 941. Valid Mountain Array - `Easy`
 ///
 /// # Idea
-/// _
+/// A Simple Solution would be
+/// First, array must be more than 3 elements
+/// Then, we go through the array and check for constant increase,
+/// Once it starts decreasing we switch to checking for constant decrease,
+/// If that goes well, then return true, otherwise it goes against the rules
+/// and should be false.
+///
 /// # Conclusion
-/// _
+/// Generally the best solution, though my original answer lacked a couple of optimizations with
+/// checks in if statements, but even with them it was not a significant difference.
 pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
-    todo!() 
+    let len = arr.len();
+    if len < 3 || arr[0] >= arr[1] || arr[len - 1] >= arr[len - 2] {
+        return false;
+    }
+    let mut pivot = 0;
+    for i in (1..len) {
+        if arr[i] > arr[pivot] {
+            pivot = i;
+        } else {
+            break;
+        }
+    }
+    for i in (pivot + 1..len) {
+        if arr[i] < arr[pivot] {
+            pivot = i
+        } else {
+            return false;
+        }
+    }
+    true
 }
 
 /// 991. Broken Calculator - `Medium`
@@ -159,10 +188,10 @@ pub fn broken_calc(start_value: i32, target: i32) -> i32 {
 /// Perfect Solution, one optimization is using array instead of a vector as size is known
 /// and it can avoid the extra reverse at the end, but implementation itself would still be the same
 pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
-    let (mut ans, mut max) = (vec![],-1);
+    let (mut ans, mut best) = (vec![], -1);
     for i in arr.into_iter().rev() {
-        ans.push(max);
-        max = std::cmp::max(i, max)
+        ans.push(best);
+        best = max(i, best)
     }
     ans.into_iter().rev().collect()
 }
@@ -217,11 +246,30 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
 /// 2404. Most Frequent Even Element - `Easy`
 ///
 /// # Idea
-/// _
+/// `HashMap`! Certain numbers have to be kept track of and then compared,
+/// of course the best solution to this seems to be just using a hashmap.
+/// 
+/// For this we will try to keep even numbers as keys and how many times they appear as values.
 /// # Conclusion
-/// _
+/// The best solution possible, a potential different approach was to use iterators instead of 
+/// a single for loop with checks, but, while equal in perfomance, it would not be better in
+/// anything except for a couple of saved lines, if even that
 pub fn most_frequent_even(nums: Vec<i32>) -> i32 {
-    todo!() 
+    let mut map: HashMap<i32, i32> = HashMap::new();
+    let (mut best, mut val) = ((-1,-1), 0);
+    for num in nums { // could have used .into_iter.filter, and for_each, and etc.
+        if num % 2 == 0 {
+            val = match map.get(&num) {
+                Some(v) => v+1,
+                None => 1
+            };
+            if val > best.1 || (val == best.1 && num < best.0) {
+                best = (num, val);
+            }
+            map.insert(num, val);
+        }
+    }
+    best.0
 }
 
 /// 2485. Find the Pivot Integer - `Easy`
