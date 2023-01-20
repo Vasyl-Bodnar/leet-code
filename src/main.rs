@@ -106,19 +106,6 @@ fn main() {
         "aa", "a*"; true,
         "ab", ".*"; true
     );
-    // Solved, move to tests:
-    // group_print!(
-    //     most_frequent_even,
-    //     vec![0,1,2,2,4,4,1]; 2,
-    //     vec![4,4,4,9,2,4]; 4,
-    //     vec![29,47,21,41,13,37,25,7]; -1
-    // );
-    // group_print!(
-    //     valid_mountain_array,
-    //     vec![2,1]; false,
-    //     vec![3,5,5]; false,
-    //     vec![0,3,2,1]; true
-    // );
 }
 
 // Solved problems become tests
@@ -170,6 +157,16 @@ fn hab_693() {
 }
 
 #[test]
+fn vma_941() {
+    group_test!(
+        valid_mountain_array,
+        vec![2,1]; false,
+        vec![3,5,5]; false,
+        vec![0,3,2,1]; true
+    );
+}
+
+#[test]
 fn bc_991() {
     group_test!(
         broken_calc,
@@ -186,6 +183,16 @@ fn re_1299() {
         replace_elements,
         vec![17,18,5,4,6,1]; vec![18,6,6,6,1,-1],
         vec![400]; vec![-1]
+    );
+}
+
+#[test]
+fn sz_1304() {
+    group_test!(
+        sum_zero,
+        5; vec![-2,-1,0,1,2], // Many Possible combinations, but this is the simplest required one
+        3; vec![-1,0,1],
+        1; vec![0]
     );
 }
 
@@ -209,6 +216,16 @@ fn md_2078() {
         vec![1,8,3,8,3]; 4,
         vec![82,40,40,82]; 2,
         vec![0,1]; 1
+    );
+}
+
+#[test]
+fn mfe_2404() {
+    group_test!(
+        most_frequent_even,
+        vec![0,1,2,2,4,4,1]; 2,
+        vec![4,4,4,9,2,4]; 4,
+        vec![29,47,21,41,13,37,25,7]; -1
     );
 }
 

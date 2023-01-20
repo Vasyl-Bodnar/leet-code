@@ -1,5 +1,6 @@
-//// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution, instead
-//// of just copying a better solution, unless my original was quite bad or did not pass all cases
+// TODO: Try to Improve Comments, beyond best idea and conclusion, with older ideas, more thinking process
+//// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution, 
+//// instead of just copying a better solution, unless my original was quite bad or did not pass all cases
 #![allow(unused)]
 use std::cmp::{max, min};
 use std::collections::HashMap;
@@ -194,6 +195,26 @@ pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
         best = max(i, best)
     }
     ans.into_iter().rev().collect()
+}
+
+/// 1304. Find N Unique Integers Sum up to Zero - `Easy`
+///
+/// # Idea
+/// Run a generator, which just fills out negative and positive integers on both ends
+/// if odd just go from -n/2 to n/2, if even same while ignoring the 0, either through filter or
+/// chaining.
+///
+/// # Conclusion
+/// Works nicely, multiple possible implementations here, but I like how simple mine is with ranges
+/// in comparison to something like loops or iterator solutions, speed-wise it was still on par
+/// with others though.
+pub fn sum_zero(n: i32) -> Vec<i32> {
+    if n % 2 == 0 {
+        (-(n/2)..0).chain(1..=n/2).collect()
+    }
+    else {
+        (-(n/2)..=n/2).collect()
+    }
 }
 
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`

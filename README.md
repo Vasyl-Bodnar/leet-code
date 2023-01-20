@@ -11,10 +11,11 @@ LeetCode into files, such as function definition and examples
 
 - [x] 1. Two Sum
 - [x] 693. Binary Number with Alternating Bits
-- [ ] 941. Valid Mountain Array
+- [x] 941. Valid Mountain Array
+- [x] 1304. Find N Unique Integers Sum up to Zero
 - [x] 2016. Maximum Difference Between Increasing Elements
 - [x] 2078. Two Furthest Houses with Different Colors
-- [ ] 2404. Most Frequent Even Element
+- [x] 2404. Most Frequent Even Element
 - [x] 2485. Find the Pivot Integer
 
 ### Medium
