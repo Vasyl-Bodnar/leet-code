@@ -1,5 +1,5 @@
 // TODO: Try to Improve Comments, beyond best idea and conclusion, with older ideas, more thinking process
-//// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution, 
+//// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution,
 //// instead of just copying a better solution, unless my original was quite bad or did not pass all cases
 #![allow(unused)]
 use std::cmp::{max, min};
@@ -210,11 +210,41 @@ pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
 /// with others though.
 pub fn sum_zero(n: i32) -> Vec<i32> {
     if n % 2 == 0 {
-        (-(n/2)..0).chain(1..=n/2).collect()
+        (-(n / 2)..0).chain(1..=n / 2).collect()
+    } else {
+        (-(n / 2)..=n / 2).collect()
     }
-    else {
-        (-(n/2)..=n/2).collect()
-    }
+}
+
+/// 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence - `Easy`
+///
+/// # Idea
+/// Split words by space, loop until you find a prefix, otherwise return -1.
+/// Very easy and simply solution.
+///
+/// # Conclusion
+/// Originally implemented with a simple for loop over split and enumerated words, and then 
+/// with an pure iterator for comparison. Solutions are identical in how they work,
+/// though interestingly iterator solutions is slightly faster, either way this is a
+/// simply and efficient solution to the problem.
+pub fn is_prefix_of_word(sentence: String, search_word: String) -> i32 {
+    // for (i,w) in sentence.split_whitespace().enumerate() {
+    //     if w.starts_with(&search_word) {
+    //          return (i+1) as i32
+    //     }
+    // }
+    // -1
+    sentence
+        .split_whitespace()
+        .enumerate()
+        .find_map(|(i, w)| {
+            if w.starts_with(&search_word) {
+                Some((i + 1) as i32)
+            } else {
+                None
+            }
+        })
+        .unwrap_or(-1)
 }
 
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`
@@ -269,20 +299,21 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
 /// # Idea
 /// `HashMap`! Certain numbers have to be kept track of and then compared,
 /// of course the best solution to this seems to be just using a hashmap.
-/// 
+///
 /// For this we will try to keep even numbers as keys and how many times they appear as values.
 /// # Conclusion
-/// The best solution possible, a potential different approach was to use iterators instead of 
+/// The best solution possible, a potential different approach was to use iterators instead of
 /// a single for loop with checks, but, while equal in perfomance, it would not be better in
 /// anything except for a couple of saved lines, if even that
 pub fn most_frequent_even(nums: Vec<i32>) -> i32 {
     let mut map: HashMap<i32, i32> = HashMap::new();
-    let (mut best, mut val) = ((-1,-1), 0);
-    for num in nums { // could have used .into_iter.filter, and for_each, and etc.
+    let (mut best, mut val) = ((-1, -1), 0);
+    for num in nums {
+        // could have used .into_iter.filter, and for_each, and etc.
         if num % 2 == 0 {
             val = match map.get(&num) {
-                Some(v) => v+1,
-                None => 1
+                Some(v) => v + 1,
+                None => 1,
             };
             if val > best.1 || (val == best.1 && num < best.0) {
                 best = (num, val);

@@ -197,6 +197,16 @@ fn sz_1304() {
 }
 
 #[test]
+fn ipow_1455() {
+    group_test!(
+        is_prefix_of_word, and apply String::from,
+        "i love eating burger", "burg"; 4,
+        "this problem is an easy problem", "pro"; 2,
+        "i am tired", "you"; -1
+    );
+}
+
+#[test]
 fn md_2016() {
     group_test!(
         maximum_difference,
