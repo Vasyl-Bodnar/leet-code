@@ -10,6 +10,7 @@ LeetCode into files, such as function definition and examples
 ### Easy
 
 - [x] 1. Two Sum
+- [x] 13. Roman to Integer
 - [x] 693. Binary Number with Alternating Bits
 - [x] 941. Valid Mountain Array
 - [x] 1304. Find N Unique Integers Sum up to Zero
@@ -21,6 +22,7 @@ LeetCode into files, such as function definition and examples
 
 ### Medium
 
+- [ ] 2. Add Two Numbers
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator

@@ -101,6 +101,12 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
+        add_two_numbers,
+        Some(Box::new(vec![2,4,3])), Some(Box::new(vec![5,6,4])); Some(Box::new(vec![7,0,8])),
+        Some(Box::new(vec![0])), Some(Box::new(vec![0])); Some(Box::new(vec![0])),
+        Some(Box::new(vec![9,9,9,9,9,9,9])), Some(Box::new(vec![9,9,9,9])); Some(Box::new(vec![8,9,9,9,0,0,0,1]))
+    );
+    group_print!(
         is_match, and apply String::from,
         "aa", "a"; false,
         "aa", "a*"; true,
@@ -118,6 +124,16 @@ fn ts_1() {
         vec![2,7,11,15], 9; vec![0,1],
         vec![3,2,4], 6; vec![1,2],
         vec![3,3], 6; vec![0,1]
+    );
+}
+
+#[test]
+fn rti_13() {
+    group_test!(
+        roman_to_int, and apply String::from,
+        "III"; 3,
+        "LVIII"; 58,
+        "MCMXCIV"; 1994
     );
 }
 

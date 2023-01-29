@@ -69,7 +69,9 @@ def make_func(func):
             [
                 line
                 for line in (func).splitlines()
-                if line.strip() != "impl Solution {" and line != "}"
+                if line.strip() != "impl Solution {"
+                and line != "}"
+                and "//" not in line
             ]
         )
         .strip()

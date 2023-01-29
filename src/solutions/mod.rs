@@ -27,6 +27,20 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     unreachable!()
 }
 
+// TODO: Implement Linked List for This Problem, for now Vec to avoid errors
+/// 2. Add Two Numbers - `Medium`
+///
+/// # Idea
+/// _
+/// # Conclusion
+/// _
+pub fn add_two_numbers(
+    l1: Option<Box<Vec<i32>>>,
+    l2: Option<Box<Vec<i32>>>,
+) -> Option<Box<Vec<i32>>> {
+    todo!()
+}
+
 /// 10. Regular Expression Matching - `Hard`
 ///
 /// # Idea
@@ -35,6 +49,44 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 /// _
 pub fn is_match(s: String, p: String) -> bool {
     todo!()
+}
+
+/// 13. Roman to Integer - `Easy`
+///
+/// # Idea
+/// Convert string to list of ints, fold based on
+/// "if previous number is smaller than next one then substract, else add".
+///
+/// # Conclusion
+/// Very simple a nice solution, it is slower than other solutions, which rely on heavily
+/// engineered loops and hashmaps, however I would still prefer to write this one, unless
+/// perfomance was extremely critical for some reason.
+///
+/// # Extra
+/// Another solution I tried was to replace all possible unique instances with their direct
+/// counterparts (i.e. IV -> IIII) and then just map them with numbers and sum. 
+/// It turns out that is the fastest solution, despite how simple it is. 
+/// I still choose to keep my older solution, since it looks nicer and less hacky.
+pub fn roman_to_int(s: String) -> i32 {
+    s.chars()
+        .map(|ch| match ch {
+            'I' => 1,
+            'V' => 5,
+            'X' => 10,
+            'L' => 50,
+            'C' => 100,
+            'D' => 500,
+            'M' => 1000,
+            _ => 0,
+        })
+        .rfold((0, 0), |(acc, prev), num| {
+            if prev > num {
+                (acc - num, num)
+            } else {
+                (acc + num, num)
+            }
+        })
+        .0
 }
 
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`
@@ -223,7 +275,7 @@ pub fn sum_zero(n: i32) -> Vec<i32> {
 /// Very easy and simply solution.
 ///
 /// # Conclusion
-/// Originally implemented with a simple for loop over split and enumerated words, and then 
+/// Originally implemented with a simple for loop over split and enumerated words, and then
 /// with an pure iterator for comparison. Solutions are identical in how they work,
 /// though interestingly iterator solutions is slightly faster, either way this is a
 /// simply and efficient solution to the problem.
@@ -298,7 +350,7 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
 ///
 /// # Idea
 /// `HashMap`! Certain numbers have to be kept track of and then compared,
-/// of course the best solution to this seems to be just using a hashmap.
+/// of course the best solution to this seems to be just using a `Hashmap`.
 ///
 /// For this we will try to keep even numbers as keys and how many times they appear as values.
 /// # Conclusion
