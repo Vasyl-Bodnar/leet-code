@@ -22,7 +22,7 @@ LeetCode into files, such as function definition and examples
 
 ### Medium
 
-- [ ] 2. Add Two Numbers
+- [x] 2. Add Two Numbers
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator

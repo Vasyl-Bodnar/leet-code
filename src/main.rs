@@ -5,6 +5,7 @@ use std::fmt::Debug;
 
 mod solutions;
 use solutions::*;
+use solutions::util::*;
 
 macro_rules! print_function_name {
     ($func:expr) => {
@@ -25,8 +26,11 @@ macro_rules! print_function_name {
 /// )
 /// ```
 /// Option can be `and sort`, which sorts the ouput and expected output for problems where order
-/// does not matter, or it can be `and apply func`, which copies a function onto each element.
-/// As an example, it is useful for cases where input is a string and String::from on each element is distracting.
+/// does not matter, it can be `and apply func`, which copies a function onto each input, or `and
+/// apply fully func`, which copies onto both input and output.
+///
+/// As an example, it is useful for cases where input is a string and `String::from` on each element is distracting,
+/// or with horrible types like in Problem 2.
 ///
 /// `group_test` is equivalent in everything except that it focuses around asserts instead of printing.
 macro_rules! group_print {
@@ -48,6 +52,13 @@ macro_rules! group_print {
     ),*) => {
         print_function_name!($func);
         $(print_and_check(stringify!($($input)+), $func($($app($input),)+), $expected);)*
+    };
+    ($func:expr, and apply fully $app:expr, $(
+        $($input:expr),+;
+        $expected:expr
+    ),*) => {
+        print_function_name!($func);
+        $(print_and_check(stringify!($($input)+), $func($($app($input),)+), $app($expected));)*
     };
     ($func:expr, and sort, $(
         $($input:expr),+;
@@ -78,6 +89,12 @@ macro_rules! group_test {
     ),*) => {
         $(assert!($func($($app($input),)*) == $expected);)*
     };
+    ($func:expr, and apply fully $app:expr, $(
+        $($input:expr),+;
+        $expected:expr
+    ),*) => {
+        $(assert!($func($($app($input),)*) == $app($expected));)*
+    };
     ($func:expr, and sort, $(
         $($input:expr),+;
         $expected:expr
@@ -101,16 +118,13 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
-        add_two_numbers,
-        Some(Box::new(vec![2,4,3])), Some(Box::new(vec![5,6,4])); Some(Box::new(vec![7,0,8])),
-        Some(Box::new(vec![0])), Some(Box::new(vec![0])); Some(Box::new(vec![0])),
-        Some(Box::new(vec![9,9,9,9,9,9,9])), Some(Box::new(vec![9,9,9,9])); Some(Box::new(vec![8,9,9,9,0,0,0,1]))
-    );
-    group_print!(
         is_match, and apply String::from,
+        "mississippi", "mis*is*p*."; false,
+        "mississippi", "mis*is*ip*."; true,
+        "aab", "c*a*b"; true,
         "aa", "a"; false,
         "aa", "a*"; true,
-        "ab", ".*"; true
+        "ab", ".*c"; false
     );
 }
 
@@ -124,6 +138,17 @@ fn ts_1() {
         vec![2,7,11,15], 9; vec![0,1],
         vec![3,2,4], 6; vec![1,2],
         vec![3,3], 6; vec![0,1]
+    );
+}
+
+#[test]
+fn atn_2() {
+    let f = |x: Vec<i32>| Some(Box::new(ListNode::from_vec(x)));
+    group_test!(
+        add_two_numbers, and apply fully f,
+        vec![2,4,3], vec![5,6,4]; vec![7,0,8],
+        vec![0], vec![0]; vec![0],
+        vec![9,9,9,9,9,9,9], vec![9,9,9,9]; vec![8,9,9,9,0,0,0,1]
     );
 }
 

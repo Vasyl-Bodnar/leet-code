@@ -5,6 +5,9 @@
 use std::cmp::{max, min};
 use std::collections::HashMap;
 
+pub mod util;
+use util::*;
+
 /// 1. Two Sum - `Easy`
 ///
 /// # Praise
@@ -27,24 +30,92 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     unreachable!()
 }
 
-// TODO: Implement Linked List for This Problem, for now Vec to avoid errors
 /// 2. Add Two Numbers - `Medium`
 ///
 /// # Idea
-/// _
+/// Originally I wanted a brute force solution (i.e. convert lists to numbers, add, convert back to list), and I got it to work for almost
+/// all cases, except final ones, where unfortunately numbers were too great even for u128.
+///
+/// This solution is also simple, though not as funny as my original one. Add each node, carry any leftover and that way slowly build your
+/// final node.
+///
 /// # Conclusion
-/// _
+/// This is actually considered a fast 0ms solution, and I believe it should be O(max(v,u)), where v is
+/// len of first list, u is len of second list, just like other good solutions.
+///
+/// A better solution in terms of visual looks, though not different in terms of speed, 
+/// would be a single while loop variation which matches until both lists are null and 
+/// there is no carry. 
+///
+/// There are mirror solutions in rust, however, 
+/// I see no point in just rewriting it that way, so I will just keep this one.
+///
+/// # Note
+/// Rust collections has a LinkedList definition, but it is double linked which
+/// is not the type of list the problem offers, not that it would make much of a difference.
 pub fn add_two_numbers(
-    l1: Option<Box<Vec<i32>>>,
-    l2: Option<Box<Vec<i32>>>,
-) -> Option<Box<Vec<i32>>> {
-    todo!()
+    mut l1: Option<Box<ListNode<i32>>>,
+    mut l2: Option<Box<ListNode<i32>>>,
+) -> Option<Box<ListNode<i32>>> {
+    impl ListNode<i32> {
+        pub fn append(&mut self, node: &Option<Box<ListNode<i32>>>) {
+            if let Some(ref mut n) = self.next {
+                n.append(node)
+            } else {
+                self.next = node.clone()
+            }
+        }
+    }
+    fn get_val(node: &Option<Box<ListNode<i32>>>) -> Option<i32> {
+        if let Some(n) = node {
+            Some(n.val)
+        } else {
+            None
+        }
+    }
+    let mut lf = ListNode::new(0);
+    let mut next = Some(Box::new(ListNode::new(0)));
+    let mut add_res = (0, 0);
+    let mut add = |ad: i32| {
+        let addition = ad + add_res.1;
+        add_res = if addition < 10 {
+            (addition, 0)
+        } else {
+            (addition % 10, 1)
+        };
+        next.as_mut().unwrap().val += add_res.0;
+        lf.append(&next);
+        next = Some(Box::new(ListNode::new(0)));
+    };
+    loop {
+        match (get_val(&l1), get_val(&l2)) {
+            (Some(v), Some(u)) => {
+                l1 = l1.unwrap().next;
+                l2 = l2.unwrap().next;
+                add(v + u)
+            }
+            (Some(v), None) => {
+                l1 = l1.unwrap().next;
+                add(v)
+            }
+            (None, Some(u)) => {
+                l2 = l2.unwrap().next;
+                add(u)
+            }
+            _ => break,
+        }
+    }
+    if add_res.1 != 0 {
+        next.as_mut().unwrap().val = add_res.1;
+        lf.append(&next);
+    }
+    lf.next
 }
 
 /// 10. Regular Expression Matching - `Hard`
 ///
 /// # Idea
-/// _
+/// Advance both iterators while pattern matches, break and return false if it does not match
 /// # Conclusion
 /// _
 pub fn is_match(s: String, p: String) -> bool {
@@ -60,12 +131,12 @@ pub fn is_match(s: String, p: String) -> bool {
 /// # Conclusion
 /// Very simple a nice solution, it is slower than other solutions, which rely on heavily
 /// engineered loops and hashmaps, however I would still prefer to write this one, unless
-/// perfomance was extremely critical for some reason.
+/// perfomance was critical.
 ///
 /// # Extra
 /// Another solution I tried was to replace all possible unique instances with their direct
-/// counterparts (i.e. IV -> IIII) and then just map them with numbers and sum. 
-/// It turns out that is the fastest solution, despite how simple it is. 
+/// counterparts (i.e. IV -> IIII) and then just map them with numbers and sum.
+/// It turns out that is the fastest solution, despite how simple it is.
 /// I still choose to keep my older solution, since it looks nicer and less hacky.
 pub fn roman_to_int(s: String) -> i32 {
     s.chars()
@@ -157,7 +228,7 @@ pub fn repeated_string_match(a: String, b: String) -> i32 {
 ///
 /// # Conclusion
 /// My solution is as efficient for the task as possible, and is such is a perfect answer, though
-/// in case if it is considered cheating, then the generator works well enough.
+/// in case if it is considered cheating, then the generator or the idea from it works well.
 pub fn has_alternating_bits(n: i32) -> bool {
     [
         2, 5, 10, 21, 42, 85, 170, 341, 682, 1365, 2730, 5461, 10922, 21845, 43690, 87381, 174762,
@@ -212,10 +283,8 @@ pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
 /// # Conclusion
 /// Backtracking is indeed the correct solution.
 ///
-/// Though my original answer was less optimized with comparisons, with it
-/// having the `>` in the if statement, and `!=` as while loop, and as a result no extra `+ (start_value - targ)`,
-/// so, due to extra checks, it ended up being significantly slower even though the code difference
-/// is not large.
+/// Though my original answer was less optimized with comparisons, so with some extra checks, 
+/// it ended up being significantly slower even though the code difference is not large.
 ///
 /// Still essentially the same solution, and of the course same answer.
 pub fn broken_calc(start_value: i32, target: i32) -> i32 {
