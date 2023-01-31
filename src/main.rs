@@ -259,6 +259,15 @@ fn md_2016() {
 }
 
 #[test]
+fn pbc_2055() {
+    group_test!(
+        plates_between_candles,
+        String::from("**|**|***|"), vec![vec![2,5],vec![5,9]]; vec![2,3],
+        String::from("***|**|*****|**||**|*"), vec![vec![1,17],vec![4,5],vec![14,17],vec![5,11],vec![15,16]]; vec![9,0,0,0,0]
+    );
+}
+
+#[test]
 fn md_2078() {
     group_test!(
         max_distance,

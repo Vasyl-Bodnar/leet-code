@@ -43,11 +43,11 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 /// This is actually considered a fast 0ms solution, and I believe it should be O(max(v,u)), where v is
 /// len of first list, u is len of second list, just like other good solutions.
 ///
-/// A better solution in terms of visual looks, though not different in terms of speed, 
-/// would be a single while loop variation which matches until both lists are null and 
-/// there is no carry. 
+/// A better solution in terms of visual looks, though not much different in terms of speed,
+/// would be a single while loop variation which matches until both lists are null and
+/// there is no carry.
 ///
-/// There are mirror solutions in rust, however, 
+/// There are mirror solutions in rust, however,
 /// I see no point in just rewriting it that way, so I will just keep this one.
 ///
 /// # Note
@@ -283,7 +283,7 @@ pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
 /// # Conclusion
 /// Backtracking is indeed the correct solution.
 ///
-/// Though my original answer was less optimized with comparisons, so with some extra checks, 
+/// Though my original answer was less optimized with comparisons, so with some extra checks,
 /// it ended up being significantly slower even though the code difference is not large.
 ///
 /// Still essentially the same solution, and of the course same answer.
@@ -392,6 +392,43 @@ pub fn maximum_difference(nums: Vec<i32>) -> i32 {
         }
     }
     best
+}
+
+/// 2055. Plates Between Candles - `Medium`
+///
+/// # Idea
+/// First we find all indices of candles, then we map over the query,
+/// using binary search to get candles on the right and left,
+/// our answer would be either all values between those two candles -
+/// the count of candles between, or just 0 as not enough candles are found.
+///
+/// # Conclusion
+/// It is a bit trickier solution requiring either an efficient binary search or
+/// a bit better solution based on three collecting vectors.
+///
+/// My original attempt was done purely with iterators without binary search,
+/// however it is unable to pass some of the more massive examples due to poorer scaling.
+pub fn plates_between_candles(s: String, queries: Vec<Vec<i32>>) -> Vec<i32> {
+    let pos: Vec<_> = s
+        .chars()
+        .enumerate()
+        .filter_map(|(idx, ch)| if ch == '|' { Some(idx) } else { None })
+        .collect();
+
+    queries
+        .into_iter()
+        .map(|q| {
+            let left = pos.binary_search(&(q[0] as usize)).unwrap_or_else(|e| e);
+            let right = pos
+                .binary_search(&(q[1] as usize))
+                .map_or_else(|e| if e == 0 {e} else {e - 1}, |v| v);
+            if left < right {
+                (pos[right] - pos[left] - (right - left)) as i32
+            } else {
+                0
+            }
+        })
+        .collect()
 }
 
 /// 2078. Two Furthest Houses With Different Colors - `Easy`

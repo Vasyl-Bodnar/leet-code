@@ -27,6 +27,7 @@ LeetCode into files, such as function definition and examples
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator
 - [x] 1299. Replace Elements with Greatest Element on Right Side
+- [x] 2055. Plates Between Candles
 
 ### Hard
 
