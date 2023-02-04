@@ -175,6 +175,16 @@ fn fm_153() {
 }
 
 #[test]
+fn ctt_168() {
+    group_test!(
+        convert_to_title,
+        1; String::from("A"),
+        28; String::from("AB"),
+        701; String::from("ZY")
+    );
+}
+
+#[test]
 fn rsm_686() {
     group_test!(
         repeated_string_match, and apply String::from,

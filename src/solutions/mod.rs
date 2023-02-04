@@ -190,6 +190,27 @@ pub fn find_min(nums: Vec<i32>) -> i32 {
     }
 }
 
+/// 168. Excel Sheet Column Title - `Easy`
+///
+/// # Idea
+/// General idea is that we simply divide the column number by 26 and test what letter we are at
+/// with modulo operator, then we append to our result string. 
+///
+/// Since I just append to the string, we have to reverse this at the end.
+///
+/// # Conclusion
+/// Fine fast solution, one improvement would be to not append but instead generate an array of base 26
+/// numbers and then convert them to letters in a map.
+pub fn convert_to_title(column_number: i32) -> String {
+    let (mut fin, mut cl) = (String::from(""), column_number);
+    while cl > 0 {
+        cl -= 1;
+        fin += &*(((cl%26 + 'A' as i32) as u8 as char).to_string());
+        cl /= 26;
+    }
+    fin.chars().rev().collect()
+}
+
 /// 686. Repeated String Match - `Medium`
 ///
 /// # Idea
