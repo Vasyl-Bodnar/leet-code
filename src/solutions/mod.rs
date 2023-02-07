@@ -115,11 +115,71 @@ pub fn add_two_numbers(
 /// 10. Regular Expression Matching - `Hard`
 ///
 /// # Idea
-/// Advance both iterators while pattern matches, break and return false if it does not match
+/// Simple dynamic programming
+///
 /// # Conclusion
-/// _
+/// Very fast and natural solution
 pub fn is_match(s: String, p: String) -> bool {
-    todo!()
+    let (s, p) = (s.as_bytes(), p.as_bytes());
+    let (sl, pl) = (s.len(), p.len());
+    let mut dp = vec![vec![false; pl + 1]; sl + 1];
+    dp[0][0] = true;
+    for i in 1..=pl {
+        if p[i - 1] == b'*' {
+            dp[0][i] = dp[0][i - 2];
+        }
+    }
+    for i in 1..=sl {
+        for j in 1..=pl {
+            if p[j - 1] == b'.' || p[j - 1] == s[i - 1] {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else if p[j - 1] == b'*' {
+                dp[i][j] = dp[i][j - 2];
+                if p[j - 2] == b'.' || p[j - 2] == s[i - 1] {
+                    dp[i][j] |= dp[i - 1][j];
+                }
+            }
+            println!("{dp:?}");
+        }
+    }
+    dp[sl][pl]
+}
+
+/// 12. Integer to Roman - `Medium`
+///
+/// # Idea
+/// Zip possible letters with their numerical values, find first one that matches and
+/// returns the modulo with itself, build it and continue recursively.
+///
+/// # Conclusion
+/// Speed-wise it was somewhat random, certain times it was on a slower end at 7-9ms othertimes it
+/// was fastest at 0-2ms. Somewhat better solutions were not much less hacky than mine in idea, built arrays
+/// of all possible values and divided and modulo number into indexes to get their answer.
+///
+/// Rust is not best for recursion, and this could be done pretty well without it, but I decided that it is fine
+/// and I would forget if I did not use for long time.
+pub fn int_to_roman(num: i32) -> String {
+    fn f(num: i32) -> String {
+        if num == 0 {
+            return String::from("");
+        }
+        if let Some((l, n)) = "MDCLXVI"
+            .chars()
+            .zip([1000, 500, 100, 50, 10, 5, 1])
+            .find(|(_, n)| n % num == *n || num == *n)
+        {
+            (String::from(l) + &*f(num - n))
+        } else {
+            String::from("")
+        }
+    };
+    f(num)
+        .replace("IIII", "IV")
+        .replace("XXXX", "XL")
+        .replace("CCCC", "CD")
+        .replace("VIV", "IX")
+        .replace("LXL", "XC")
+        .replace("DCD", "CM")
 }
 
 /// 13. Roman to Integer - `Easy`
@@ -194,7 +254,7 @@ pub fn find_min(nums: Vec<i32>) -> i32 {
 ///
 /// # Idea
 /// General idea is that we simply divide the column number by 26 and test what letter we are at
-/// with modulo operator, then we append to our result string. 
+/// with modulo operator, then we append to our result string.
 ///
 /// Since I just append to the string, we have to reverse this at the end.
 ///
@@ -205,7 +265,7 @@ pub fn convert_to_title(column_number: i32) -> String {
     let (mut fin, mut cl) = (String::from(""), column_number);
     while cl > 0 {
         cl -= 1;
-        fin += &*(((cl%26 + 'A' as i32) as u8 as char).to_string());
+        fin += &*(((cl % 26 + 'A' as i32) as u8 as char).to_string());
         cl /= 26;
     }
     fin.chars().rev().collect()
@@ -442,7 +502,7 @@ pub fn plates_between_candles(s: String, queries: Vec<Vec<i32>>) -> Vec<i32> {
             let left = pos.binary_search(&(q[0] as usize)).unwrap_or_else(|e| e);
             let right = pos
                 .binary_search(&(q[1] as usize))
-                .map_or_else(|e| if e == 0 {e} else {e - 1}, |v| v);
+                .map_or_else(|e| if e == 0 { e } else { e - 1 }, |v| v);
             if left < right {
                 (pos[right] - pos[left] - (right - left)) as i32
             } else {

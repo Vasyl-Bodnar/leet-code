@@ -24,6 +24,7 @@ LeetCode into files, such as function definition and examples
 ### Medium
 
 - [x] 2. Add Two Numbers
+- [x] 12. Integer to Roman
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator
@@ -32,4 +33,4 @@ LeetCode into files, such as function definition and examples
 
 ### Hard
 
-- [ ] 10. Regular Expression Matching
+- [x] 10. Regular Expression Matching

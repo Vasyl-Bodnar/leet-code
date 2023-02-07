@@ -108,7 +108,7 @@ macro_rules! group_test {
 
 fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
     println!(
-        "Input: {:?} | Output: {:?} | Expected: {:?} | Success? {}",
+        "Input: {} | Output: {:?} | Expected: {:?} | Success? {}",
         input.blue(),
         output.green(),
         expected.red(),
@@ -117,15 +117,6 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 }
 
 fn main() {
-    group_print!(
-        is_match, and apply String::from,
-        "mississippi", "mis*is*p*."; false,
-        "mississippi", "mis*is*ip*."; true,
-        "aab", "c*a*b"; true,
-        "aa", "a"; false,
-        "aa", "a*"; true,
-        "ab", ".*c"; false
-    );
 }
 
 // Solved problems become tests
@@ -149,6 +140,33 @@ fn atn_2() {
         vec![2,4,3], vec![5,6,4]; vec![7,0,8],
         vec![0], vec![0]; vec![0],
         vec![9,9,9,9,9,9,9], vec![9,9,9,9]; vec![8,9,9,9,0,0,0,1]
+    );
+}
+
+#[test]
+fn im_10() {
+    group_test!(
+        is_match, and apply String::from,
+        "mississippi", "mis*is*p*."; false,
+        "mississippi", "mis*is*ip*."; true,
+        "aab", "c*a*b"; true,
+        "aa", "a*"; true,
+        "aa", "a"; false,
+        "aba", ".*"; true,
+        "ab", ".*c"; false,
+        "aaba", "ab*a*c*a"; false,
+        "aaa", "ab*a"; false,
+        "aaa", "a*a"; true
+    );
+}
+
+#[test]
+fn itr_12() {
+    group_test!(
+        int_to_roman,
+        3; String::from("III"),
+        58; String::from("LVIII"),
+        1994; String::from("MCMXCIV")
     );
 }
 
