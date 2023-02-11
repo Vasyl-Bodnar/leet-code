@@ -181,6 +181,27 @@ fn rti_13() {
 }
 
 #[test]
+fn lcp_14() {
+    let f = |vec: Vec<&str>| vec.into_iter().map(String::from).collect();
+    group_test!(
+        longest_common_prefix, and apply f,
+        vec!["flower", "flow", "flight"]; String::from("fl"),
+        vec!["dog", "racecar", "car"]; String::from("")
+    );
+}
+
+#[test]
+fn lvp_32() {
+    group_test!(
+        longest_valid_parentheses, and apply String::from,
+        "()(())"; 6,
+        "(()"; 2,
+        ")()())"; 4,
+        ""; 0
+    );
+}
+
+#[test]
 fn fm_153() {
     group_test!(
         find_min,

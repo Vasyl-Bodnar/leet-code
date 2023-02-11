@@ -4,6 +4,7 @@
 #![allow(unused)]
 use std::cmp::{max, min};
 use std::collections::HashMap;
+use std::str::Chars;
 
 pub mod util;
 use util::*;
@@ -218,6 +219,58 @@ pub fn roman_to_int(s: String) -> i32 {
             }
         })
         .0
+}
+
+/// 14. Longest Common Prefix - `Easy`
+///
+/// # Idea
+/// Run over chars in the first string and compare it with other chars at same location in other strings,
+/// if matched, add to our prefix string, otherwise just return it immediately.
+///
+/// # Conclusion
+/// Overall, it is a good solution, has good time, and is basically the same for all top answers.
+pub fn longest_common_prefix(strs: Vec<String>) -> String {
+    let mut pref = String::from("");
+    for (i, ch) in strs[0].char_indices() {
+        for elem in strs.iter().map(|x| x.chars().nth(i)) {
+            if elem != Some(ch) {
+                return pref;
+            }
+        }
+        pref.push(ch)
+    }
+    pref
+}
+
+/// 32. Longest Valid Parentheses - `Hard`
+///
+/// # Idea
+/// Go through the string, and check for all parentheses pairs, zeroing in case of broken pairs (i.e.
+/// "((" or "))"), then do the same thing for reverse string.
+/// # Conclusion
+/// Simple and fast solution, which unlike a stack solution, uses basically no space at all.
+pub fn longest_valid_parentheses(s: String) -> i32 {
+    let (mut left, mut right, mut fin) = (0, 0, 0);
+    let mut loops = |mut left: i32,
+                     mut right: i32,
+                     chs: Box<dyn Iterator<Item = char>>,
+                     comp: fn(i32, i32) -> bool| {
+        for x in chs {
+            match x {
+                '(' => left += 1,
+                _ => right += 1,
+            }
+            if left == right {
+                fin = max(left * 2, fin);
+            } else if comp(left, right) {
+                (left, right) = (0, 0);
+            }
+        }
+    };
+    loops(left, right, Box::new(s.chars()), |l, r| r > l);
+    (left, right) = (0, 0);
+    loops(left, right, Box::new(s.chars().rev()), |l, r| l > r);
+    fin
 }
 
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`

@@ -40,6 +40,7 @@ def get_func(driver):
 
 
 def get_title_etc(driver):
+    driver.implicitly_wait(5)
     simple_title = driver.find_elements(By.CLASS_NAME, "mr-2.text-lg")[0]
     difc = driver.find_element(By.CLASS_NAME, "mt-3").find_elements(By.TAG_NAME, "div")[
         0
