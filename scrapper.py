@@ -108,6 +108,7 @@ def make_solution(simple_title, difc, func):
             "///",
             "/// # Idea",
             "/// _",
+            "///",
             "/// # Conclusion",
             "/// _",
             func,

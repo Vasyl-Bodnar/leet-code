@@ -17,8 +17,10 @@ LeetCode into files, such as function definition and examples
 - [x] 941. Valid Mountain Array
 - [x] 1304. Find N Unique Integers Sum up to Zero
 - [x] 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence
+- [x] 1636. Sort Array by Increasing Frequency
 - [x] 2016. Maximum Difference Between Increasing Elements
 - [x] 2078. Two Furthest Houses with Different Colors
+- [x] 2206. Divide Array Into Equal Pairs
 - [x] 2404. Most Frequent Even Element
 - [x] 2485. Find the Pivot Integer
 

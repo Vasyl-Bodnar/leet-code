@@ -4,8 +4,8 @@ use std::cmp::PartialEq;
 use std::fmt::Debug;
 
 mod solutions;
-use solutions::*;
 use solutions::util::*;
+use solutions::*;
 
 macro_rules! print_function_name {
     ($func:expr) => {
@@ -297,6 +297,16 @@ fn ipow_1455() {
 }
 
 #[test]
+fn fs_1636() {
+    group_test!(
+        frequency_sort,
+        vec![1,1,2,2,2,3]; vec![3,1,1,2,2,2],
+        vec![2,3,1,3,2]; vec![1,3,3,2,2],
+        vec![-1,1,-6,4,5,-6,1,4,1]; vec![5,-1,4,4,-6,-6,1,1,1]
+    );
+}
+
+#[test]
 fn md_2016() {
     group_test!(
         maximum_difference,
@@ -325,6 +335,15 @@ fn md_2078() {
         vec![1,8,3,8,3]; 4,
         vec![82,40,40,82]; 2,
         vec![0,1]; 1
+    );
+}
+
+#[test]
+fn da_2207() {
+    group_test!(
+        divide_array,
+        vec![3,2,3,2,2,2]; true,
+        vec![1,2,3,4]; false
     );
 }
 

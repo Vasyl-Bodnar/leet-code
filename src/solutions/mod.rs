@@ -502,6 +502,39 @@ pub fn is_prefix_of_word(sentence: String, search_word: String) -> i32 {
         .unwrap_or(-1)
 }
 
+/// 1636. Sort Array by Increasing Frequency - `Easy`
+///
+/// # Idea
+/// `HashMap` as it is one of the best for counting frequencies. 
+/// As for sorting by frequencies, I will use a bit weird solution,
+/// with an array where I shall insert all of my hashmap values,
+/// and sort them to get the right placements.
+///
+/// # Conclusion
+/// Overall, it is a bit of an insane solution, since it will probably waste space and does not scale with array.
+/// Generally, at least in Rust, the solution is to fill the hashmap, and then use a sort method
+/// on original array which is based on the frequency and value.
+/// However, I can always replace array with another hashmap, and for now, mine is faster, with only faster submission being excessive in size.
+pub fn frequency_sort(nums: Vec<i32>) -> Vec<i32> {
+    let mut map: HashMap<i32, i32> = HashMap::new();
+    for num in nums {
+        map.insert(num, map.get(&num).unwrap_or(&0) + 1);
+    }
+    const EMPTY: Vec<i32> = Vec::new();
+    let mut arr = [EMPTY; 100];
+    for (k, v) in map {
+        arr[(v-1) as usize].push(k);
+    }
+    arr.into_iter()
+        .enumerate()
+        .flat_map(|(i, mut x)| {
+            x.sort_by_key(|x| -(x));
+            x.into_iter()
+                .flat_map(move |y| std::iter::repeat(y).take(i+1))
+        })
+        .collect()
+}
+
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`
 ///
 /// # Idea
@@ -586,6 +619,24 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
     (if l > (len - i - 1) { l } else { (len - i - 1) }) as i32
 }
 
+/// 2206. Divide Array Into Equal Pairs - `Easy`
+///
+/// # Idea
+/// `HashMap` strikes again, to satisfy both conditions you need to keep count of all numbers,
+/// which is a perfect job for a `HashMap`.
+///
+/// # Conclusion
+/// Good solution, some other potential examples were sorting and navigating chunks of 2, which
+/// was interesting, considering that using sort seems a bit counterintuitive.
+/// Still, this solution is generally the perfect answer, and just like most is O(n).
+pub fn divide_array(nums: Vec<i32>) -> bool {
+    let mut map: HashMap<i32, i32> = HashMap::new();
+    for num in nums {
+        map.insert(num, map.get(&num).unwrap_or(&0) + 1);
+    }
+    map.values().all(|x| x % 2 == 0)
+}
+
 /// 2404. Most Frequent Even Element - `Easy`
 ///
 /// # Idea
@@ -593,10 +644,11 @@ pub fn max_distance(colors: Vec<i32>) -> i32 {
 /// of course the best solution to this seems to be just using a `Hashmap`.
 ///
 /// For this we will try to keep even numbers as keys and how many times they appear as values.
+///
 /// # Conclusion
 /// The best solution possible, a potential different approach was to use iterators instead of
-/// a single for loop with checks, but, while equal in perfomance, it would not be better in
-/// anything except for a couple of saved lines, if even that
+/// a single for loop with checks, but, while similar in perfomance, it does not seem necessary
+/// here.
 pub fn most_frequent_even(nums: Vec<i32>) -> i32 {
     let mut map: HashMap<i32, i32> = HashMap::new();
     let (mut best, mut val) = ((-1, -1), 0);
