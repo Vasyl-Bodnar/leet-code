@@ -116,10 +116,10 @@ pub fn add_two_numbers(
 /// 10. Regular Expression Matching - `Hard`
 ///
 /// # Idea
-/// Simple dynamic programming
+/// Simple dynamic programming.
 ///
 /// # Conclusion
-/// Very fast and natural solution
+/// Very fast and natural solution, though I am still learning how to do this properly.
 pub fn is_match(s: String, p: String) -> bool {
     let (s, p) = (s.as_bytes(), p.as_bytes());
     let (sl, pl) = (s.len(), p.len());
@@ -273,6 +273,35 @@ pub fn longest_valid_parentheses(s: String) -> i32 {
     fin
 }
 
+/// 38. Count and Say - `Medium`
+///
+/// # Idea
+/// Rather simple solution, if 1 then return 1, else recurse, for each recursion,
+/// handle the output by counting and appending count and ch when ch changes, or loop ends.
+///
+/// # Conclusion
+/// Though I believed it was a simple but nice solution, this was actually the fastest 0ms solution, better than
+/// 95% in this problem, and generally this is how this problem is solved for all cases.
+pub fn count_and_say(n: i32) -> String {
+    if n == 1 {
+        return String::from("1");
+    }
+    let mut fin = String::new();
+    let word = count_and_say(n - 1);
+    let bytes = word.as_bytes();
+    let (mut cur, mut count) = (bytes[0], 1);
+    for ch in bytes[1..].into_iter() {
+        if cur == *ch {
+            count += 1;
+        } else {
+            fin += &*format!("{count}{}", cur as char);
+            cur = *ch;
+            count = 1;
+        }
+    }
+    format!("{fin}{count}{}", cur as char)
+}
+
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`
 ///
 /// # Idea
@@ -362,7 +391,8 @@ pub fn repeated_string_match(a: String, b: String) -> i32 {
 ///
 /// # Conclusion
 /// My solution is as efficient for the task as possible, and is such is a perfect answer, though
-/// in case if it is considered cheating, then the generator or the idea from it works well.
+/// in case if it is considered cheating, then the generator or the idea from it works well. As it
+/// is just meant as a simple bit manipulation in the end.
 pub fn has_alternating_bits(n: i32) -> bool {
     [
         2, 5, 10, 21, 42, 85, 170, 341, 682, 1365, 2730, 5461, 10922, 21845, 43690, 87381, 174762,
@@ -505,7 +535,7 @@ pub fn is_prefix_of_word(sentence: String, search_word: String) -> i32 {
 /// 1636. Sort Array by Increasing Frequency - `Easy`
 ///
 /// # Idea
-/// `HashMap` as it is one of the best for counting frequencies. 
+/// `HashMap` as it is one of the best for counting frequencies.
 /// As for sorting by frequencies, I will use a bit weird solution,
 /// with an array where I shall insert all of my hashmap values,
 /// and sort them to get the right placements.
@@ -523,16 +553,44 @@ pub fn frequency_sort(nums: Vec<i32>) -> Vec<i32> {
     const EMPTY: Vec<i32> = Vec::new();
     let mut arr = [EMPTY; 100];
     for (k, v) in map {
-        arr[(v-1) as usize].push(k);
+        arr[(v - 1) as usize].push(k);
     }
     arr.into_iter()
         .enumerate()
         .flat_map(|(i, mut x)| {
             x.sort_by_key(|x| -(x));
             x.into_iter()
-                .flat_map(move |y| std::iter::repeat(y).take(i+1))
+                .flat_map(move |y| std::iter::repeat(y).take(i + 1))
         })
         .collect()
+}
+
+/// 1678. Goal Parser Interpretation - `Easy`
+///
+/// # Idea
+/// ```
+/// command.replace("()", "o").replace("(al)", "al")
+/// ```
+/// Jokes aside, there are two ways to approach this problem, first is to
+/// just go over the array and setup a flag for open paren, which you can then
+/// match for o or all depending on next element. The other, arguably better one,
+/// at least in speed, is windows, which I like and wanted to use for a while.
+///
+/// # Conclusion
+/// It is indeed one of the best solutions in speed and beauty,
+/// though `command.replace.replace` is actual best as it is most clear and light.
+pub fn interpret(command: String) -> String {
+    command
+        .as_bytes()
+        .windows(2)
+        .map(|chs| match chs {
+            [b'G', _] => "G",
+            [b'(', b')'] => "o",
+            [b'(', b'a'] => "al",
+            _ => "",
+        })
+        .collect::<String>()
+        + if command.ends_with("G") { "G" } else { "" }
 }
 
 /// 2016. Maximum Difference Between Increasing Elements - `Easy`

@@ -116,8 +116,7 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
     )
 }
 
-fn main() {
-}
+fn main() {}
 
 // Solved problems become tests
 // Due to group_print and group_test macros being essentially the same,
@@ -198,6 +197,15 @@ fn lvp_32() {
         "(()"; 2,
         ")()())"; 4,
         ""; 0
+    );
+}
+
+#[test]
+fn cas_38() {
+    group_print!(
+        count_and_say,
+        1; String::from("1"),
+        4; String::from("1211")
     );
 }
 
@@ -303,6 +311,16 @@ fn fs_1636() {
         vec![1,1,2,2,2,3]; vec![3,1,1,2,2,2],
         vec![2,3,1,3,2]; vec![1,3,3,2,2],
         vec![-1,1,-6,4,5,-6,1,4,1]; vec![5,-1,4,4,-6,-6,1,1,1]
+    );
+}
+
+#[test]
+fn i_1678() {
+    group_test!(
+        interpret, and apply fully String::from,
+        "G()(al)"; "Goal",
+        "G()()()()(al)"; "Gooooal",
+        "(al)G(al)()()G"; "alGalooG"
     );
 }
 

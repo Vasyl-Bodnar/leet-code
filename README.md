@@ -18,6 +18,7 @@ LeetCode into files, such as function definition and examples
 - [x] 1304. Find N Unique Integers Sum up to Zero
 - [x] 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence
 - [x] 1636. Sort Array by Increasing Frequency
+- [x] 1678. Goal Parser Interpretation
 - [x] 2016. Maximum Difference Between Increasing Elements
 - [x] 2078. Two Furthest Houses with Different Colors
 - [x] 2206. Divide Array Into Equal Pairs
@@ -28,6 +29,7 @@ LeetCode into files, such as function definition and examples
 
 - [x] 2. Add Two Numbers
 - [x] 12. Integer to Roman
+- [x] 38. Count and Say
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator
