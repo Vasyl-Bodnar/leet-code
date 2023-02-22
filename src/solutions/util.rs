@@ -8,8 +8,16 @@ pub struct ListNode<T> {
 
 impl Debug for ListNode<i32> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("{},{}", self.val, if let Some(ref x) = self.next {format!("{x:?}")} else {"!".to_string()}))
-    } 
+        f.write_fmt(format_args!(
+            "{},{}",
+            self.val,
+            if let Some(ref x) = self.next {
+                format!("{x:?}")
+            } else {
+                "!".to_string()
+            }
+        ))
+    }
 }
 
 impl<T> ListNode<T> {

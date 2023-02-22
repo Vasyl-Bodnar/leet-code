@@ -210,6 +210,15 @@ fn cas_38() {
 }
 
 #[test]
+fn ab_67() {
+    group_test!(
+        add_binary, and apply fully String::from,
+        "11", "1"; "100",
+        "1010", "1011"; "10101"
+    );
+}
+
+#[test]
 fn fm_153() {
     group_test!(
         find_min,
@@ -272,6 +281,16 @@ fn bc_991() {
         5, 8; 2,
         3, 10; 3,
         1, 1_000_000_000; 39
+    );
+}
+
+#[test]
+fn swd_1011() {
+    group_test!(
+        ship_within_days,
+        vec![1,2,3,4,5,6,7,8,9,10], 5; 15,
+        vec![3,2,2,4,1,4], 3; 6,
+        vec![1,2,3,1,1], 4; 3
     );
 }
 

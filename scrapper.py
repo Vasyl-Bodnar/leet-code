@@ -83,13 +83,14 @@ def make_func(func):
 
 
 def make_examples(func, inputs, outputs):
-    # FIX: Indentation breaks if this is not separated
-    par = "("
     return "\n".join(
         [
             "fn main() {",
             " " * 4 + "group_print!(",
-            " " * 8 + func.partition(par)[0].removeprefix("pub fn ").strip() + ",",
+            " " * 8
+            + func.partition("(")[0].removeprefix("pub fn ").strip()
+            + ","
+            + (" and apply String::from," if '"' in inputs[0][0] else ""),
             ",\n".join(
                 [
                     " " * 8 + ", ".join(x) + "; " + outputs[i]
@@ -97,6 +98,31 @@ def make_examples(func, inputs, outputs):
                 ]
             ),
             " " * 4 + ");",
+            "",
+        ]
+    )
+
+
+def make_test(func, prob_num, inputs, outputs):
+    processed_func = func.partition("(")[0].removeprefix("pub fn ").strip()
+    initials = "".join([part[0] for part in processed_func.split("_")])
+    return "\n".join(
+        [
+            "#[test]",
+            "fn " + initials + "_" + str(prob_num) + "() {",
+            " " * 4 + "group_test!(",
+            " " * 8
+            + processed_func
+            + ","
+            + (" and apply String::from," if '"' in inputs[0][0] else ""),
+            ",\n".join(
+                [
+                    " " * 8 + ", ".join(x) + "; " + outputs[i]
+                    for (i, x) in enumerate(inputs)
+                ]
+            ),
+            " " * 4 + ");",
+            "}",
         ]
     )
 
@@ -146,6 +172,20 @@ def write_solution(solution_insert, prob_num):
             file.write("\n\n".join([content, solution_insert]))
 
 
+def write_test(test_insert, prob_num):
+    (content, saved) = ("", "")
+    with open("./src/main.rs", "r", encoding="utf-8") as file:
+        content = file.read()
+        saved = write_nums(content.splitlines(), r"fn \w+_(\d+)", prob_num)
+
+    with open("./src/main.rs", "w", encoding="utf-8") as file:
+        if saved is not None:
+            saved = "#[test]\n" + saved
+            file.write(content.replace(saved, "\n\n".join([test_insert, saved])))
+        else:
+            file.write("\n\n".join([content, test_insert]))
+
+
 def write_examples(test_insert):
     # FIX: Indentation breaks if this is not separated
     par = "{"
@@ -184,21 +224,24 @@ def write_readme(simple_title, difc):
 if __name__ == "__main__":
     # Load page from arguments,
     web_driver = driver_setup(True)
-    web_driver.get(sys.argv[1])
+    try:
+        web_driver.get(sys.argv[1])
+    except IndexError:
+        print("Please enter an address to scrap!")
+        web_driver.quit()
+        exit()
     # Scrap important details like title, function, and examples,
     (title, prob_number, difficulty) = get_title_etc(web_driver)
     (simple_inputs, simple_outputs) = get_examples(web_driver)
     # Process them into proper code
     pure_func = make_func(get_func(web_driver))
-    solution = make_solution(  # pylint: disable=invalid-name
-        title, difficulty, pure_func
-    )
-    tests = make_examples(  # pylint: disable=invalid-name
-        pure_func, simple_inputs, simple_outputs
-    )
+    solution = make_solution(title, difficulty, pure_func)
+    example = make_examples(pure_func, simple_inputs, simple_outputs)
+    test = make_test(pure_func, prob_number, simple_inputs, simple_outputs)
     # Write them to files.
     write_solution(solution, prob_number)
-    write_examples(tests)
+    write_test(test, prob_number)
+    write_examples(example)
     if write_readme(title, difficulty) == -1:
         print("README not updated due to unexpected design")
     web_driver.quit()

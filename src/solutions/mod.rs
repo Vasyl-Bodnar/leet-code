@@ -4,6 +4,7 @@
 #![allow(unused)]
 use std::cmp::{max, min};
 use std::collections::HashMap;
+use std::iter;
 use std::str::Chars;
 
 pub mod util;
@@ -302,6 +303,60 @@ pub fn count_and_say(n: i32) -> String {
     format!("{fin}{count}{}", cur as char)
 }
 
+/// 67. Add Binary - `Easy`
+///
+/// # Idea
+/// Using iterations, and carry variable, we can simulate natural binary addition,
+/// First we append zeroes to smaller string, then we add each element, keeping wary of
+/// carry, and at the end, we pad ones from carry and turn it into a String from bytes
+///
+/// # Conclusion
+/// Simple solution with fast speed, and pure iteration, excluding some impure carry.
+/// This could probably be imporoved size wise, but the only real better solution, was
+/// simply using rust's method for converting binary string to number, addition, and number to string,
+/// which is pure cheating. Still same speed wise somehow.
+pub fn add_binary(a: String, b: String) -> String {
+    let mut carry = 0u8;
+    if a.len() > b.len() {
+        a.as_bytes()
+            .into_iter()
+            .rev()
+            .zip(b.as_bytes().iter().rev().chain(iter::repeat(&b'0')))
+    } else {
+        b.as_bytes()
+            .into_iter()
+            .rev()
+            .zip(a.as_bytes().iter().rev().chain(iter::repeat(&b'0')))
+    }
+    .fold(String::new(), |mut acc, chs| {
+        match chs {
+            (b'0', b'0') => acc.push(if carry >= 1 {
+                carry -= 1;
+                '1'
+            } else {
+                '0'
+            }),
+            (b'1', b'0') | (b'0', b'1') => acc.push(if carry >= 1 { '0' } else { '1' }),
+            (b'1', b'1') => acc.push(if carry >= 1 {
+                '1'
+            } else {
+                carry += 1;
+                '0'
+            }),
+            _ => unreachable!(),
+        };
+        acc
+    })
+    .as_bytes()
+    .into_iter()
+    .chain(iter::repeat(&b'1').take(carry as usize))
+    .collect::<Vec<&u8>>()
+    .into_iter()
+    .rev()
+    .map(|x| if *x == b'1' { '1' } else { '0' })
+    .collect()
+}
+
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`
 ///
 /// # Idea
@@ -463,6 +518,35 @@ pub fn broken_calc(start_value: i32, target: i32) -> i32 {
         };
     }
     op_num + (start_value - targ)
+}
+
+/// 1011. Capacity To Ship Packages Within D Days - `Medium`
+///
+/// # Idea
+/// `Binary Search`, nothing more, nothing less
+///
+/// # Conclusion
+/// Decently fast, faster solutions were unrolling some things and
+/// complicating the process, which is not really important for the task.
+pub fn ship_within_days(weights: Vec<i32>, days: i32) -> i32 {
+    let mut left: i32 = *weights.iter().max().unwrap();
+    let mut right: i32 = weights.iter().sum();
+    while left < right {
+        let (mid, mut count, mut sm) = ((left + right) / 2, 1, 0);
+        for weight in weights.iter() {
+            sm += weight;
+            if sm > mid {
+                count += 1;
+                sm = *weight;
+            }
+        }
+        if count > days {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    left
 }
 
 /// 1299. Replace Elements with Greatest Element on Right Side - `Medium`

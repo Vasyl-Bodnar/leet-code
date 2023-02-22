@@ -12,6 +12,7 @@ LeetCode into files, such as function definition and examples
 - [x] 1. Two Sum
 - [x] 13. Roman to Integer
 - [x] 14. Longest Common Prefix
+- [x] 67. Add Binary
 - [x] 168. Excel Sheet Column Title
 - [x] 693. Binary Number with Alternating Bits
 - [x] 941. Valid Mountain Array
@@ -33,6 +34,7 @@ LeetCode into files, such as function definition and examples
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator
+- [x] 1011. Capacity To Ship Packages Within D Days
 - [x] 1299. Replace Elements with Greatest Element on Right Side
 - [x] 2055. Plates Between Candles
 
