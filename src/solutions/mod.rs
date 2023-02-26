@@ -114,6 +114,46 @@ pub fn add_two_numbers(
     lf.next
 }
 
+/// 4. Median of Two Sorted Arrays - `Hard`
+///
+/// # Idea
+/// Using the fact that given arrays are very nice and extendable,
+/// we do not need to sort the mix, but just insert elements with comparisons
+/// for automatic sorting. Overall a very simple solution of `create array` and `take median`.
+///
+/// # Conclusion
+/// This is a very fast solution, original was literal chaining and direct sorting, and same median calculation,
+/// which was slower, but not by much. Which was only because I did not notice that arrays were already sorted.
+/// Again, very simple problem, and very simple solution, so hard to believe this is a `Hard`
+/// problem.
+pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+    let mut mix = vec![];
+    let (mut i, mut j) = (0, 0);
+    while i < nums1.len() && j < nums2.len() {
+        if nums1[i] < nums2[j] {
+            mix.push(nums1[i]);
+            i += 1;
+        } else {
+            mix.push(nums2[j]);
+            j += 1;
+        }
+    }
+    while i < nums1.len() {
+        mix.push(nums1[i]);
+        i += 1;
+    }
+    while j < nums2.len() {
+        mix.push(nums2[j]);
+        j += 1;
+    }
+    let len = mix.len();
+    if len % 2 == 0 {
+        (mix[len / 2 - 1] + mix[len / 2]) as f64 / 2f64
+    } else {
+        mix[len / 2] as f64
+    }
+}
+
 /// 10. Regular Expression Matching - `Hard`
 ///
 /// # Idea
@@ -141,7 +181,6 @@ pub fn is_match(s: String, p: String) -> bool {
                     dp[i][j] |= dp[i - 1][j];
                 }
             }
-            println!("{dp:?}");
         }
     }
     dp[sl][pl]
@@ -355,6 +394,26 @@ pub fn add_binary(a: String, b: String) -> String {
     .rev()
     .map(|x| if *x == b'1' { '1' } else { '0' })
     .collect()
+}
+
+/// 72. Edit Distance - `Hard`
+///
+/// # Idea
+/// _
+///
+/// # Conclusion
+/// _
+pub fn min_distance(word1: String, word2: String) -> i32 {
+    let (dist, diff) = (
+        (word1.len() - word2.len()),
+        word1
+            .as_bytes()
+            .into_iter()
+            .zip(word2.as_bytes())
+            .map(|(a, b)| a == b)
+            .fold(0, |acc, x| if x { acc + 1 } else { acc }),
+    );
+    dist as i32 + diff as i32
 }
 
 /// 153. Find Minimum in Rotated Sorted Array - `Medium`

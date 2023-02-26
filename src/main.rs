@@ -116,7 +116,13 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
     )
 }
 
-fn main() {}
+fn main() {
+    group_print!(
+        min_distance, and apply String::from,
+        "horse", "ros"; 3,
+        "intention", "execution"; 5
+    );
+}
 
 // Solved problems become tests
 // Due to group_print and group_test macros being essentially the same,
@@ -139,6 +145,15 @@ fn atn_2() {
         vec![2,4,3], vec![5,6,4]; vec![7,0,8],
         vec![0], vec![0]; vec![0],
         vec![9,9,9,9,9,9,9], vec![9,9,9,9]; vec![8,9,9,9,0,0,0,1]
+    );
+}
+
+#[test]
+fn fmsa_4() {
+    group_test!(
+        find_median_sorted_arrays,
+        vec![1,3], vec![2]; 2.0,
+        vec![1,2], vec![3,4]; 2.5
     );
 }
 
@@ -215,6 +230,15 @@ fn ab_67() {
         add_binary, and apply fully String::from,
         "11", "1"; "100",
         "1010", "1011"; "10101"
+    );
+}
+
+#[test]
+fn md_72() {
+    group_test!(
+        min_distance, and apply String::from,
+        "horse", "ros"; 3,
+        "intention", "execution"; 5
     );
 }
 

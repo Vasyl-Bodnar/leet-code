@@ -40,5 +40,7 @@ LeetCode into files, such as function definition and examples
 
 ### Hard
 
+- [x] 4. Median of Two Sorted Arrays
 - [x] 10. Regular Expression Matching
+- [ ] 72. Edit Distance
 - [x] 32. Longest Valid Parentheses
