@@ -149,6 +149,16 @@ fn atn_2() {
 }
 
 #[test]
+fn lols_3() {
+    group_test!(
+        length_of_longest_substring, and apply String::from,
+        "abcabcbb"; 3,
+        "bbbbb"; 1,
+        "pwwkew"; 3
+    );
+}
+
+#[test]
 fn fmsa_4() {
     group_test!(
         find_median_sorted_arrays,

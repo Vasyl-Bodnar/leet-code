@@ -114,6 +114,25 @@ pub fn add_two_numbers(
     lf.next
 }
 
+/// 3. Longest Substring Without Repeating Characters - `Medium`
+///
+/// # Idea
+/// Sliding Window, keeping the last non-repeating character as start, and iterating over the the
+/// string.
+///
+/// # Conclusion
+/// _
+pub fn length_of_longest_substring(s: String) -> i32 {
+    let mut pos = [0; 128];
+    let (mut fin, mut i) = (0, 0);
+    for (j, ch) in s.as_bytes().into_iter().enumerate() {
+        i = max(i, pos[*ch as usize]);
+        fin = max(fin, j - i + 1);
+        pos[*ch as usize] = j + 1;
+    }
+    return fin as i32;
+}
+
 /// 4. Median of Two Sorted Arrays - `Hard`
 ///
 /// # Idea
