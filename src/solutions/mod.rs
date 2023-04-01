@@ -4,6 +4,7 @@
 #![allow(unused)]
 use std::cmp::{max, min};
 use std::collections::HashMap;
+use std::io::Read;
 use std::iter;
 use std::str::Chars;
 
@@ -361,6 +362,154 @@ pub fn count_and_say(n: i32) -> String {
     format!("{fin}{count}{}", cur as char)
 }
 
+/// 64. Minimum Path Sum - `Medium`
+///
+/// # Idea
+/// Dynamic Programming Examplum
+///
+/// # Conclusion
+/// As expected, this is a good solution, I used a more basic version before this, since I forgot I
+/// can just use original array without creating a new one
+pub fn min_path_sum(grid: Vec<Vec<i32>>) -> i32 {
+    let mut grid = grid;
+    if grid.is_empty() || grid[0].is_empty() {
+        return 0;
+    }
+    let m = grid.len();
+    let n = grid[0].len();
+    for i in 0..m {
+        for j in 0..n {
+            match (i, j) {
+                (0, 0) => {}
+                (0, j) => grid[0][j] += grid[0][j - 1],
+                (i, 0) => grid[i][0] += grid[i - 1][0],
+                (i, j) => grid[i][j] += min(grid[i - 1][j], grid[i][j - 1]),
+            }
+        }
+    }
+    grid[m - 1][n - 1]
+}
+
+/// 65. Valid Number - `Hard`
+///
+/// # Idea
+/// A poor man's parser combinators
+///
+/// # Conclusion
+/// Generally there were a lot of ways to do this, as despite being `Hard`, it is a fairly easy
+/// problem, a fast solution would be to use a bunch of flags and a loop, a smarter (and slower), but insaner
+/// solution would be more like this. You could also acomplish this abusing Options directly instead of
+/// fancy and verbose function combinations, but I wanted to do it this way, and I will likely still try to improve
+/// this in a future.
+pub fn is_number(s: String) -> bool {
+    type Parsed = Option<(Vec<u8>, Vec<u8>)>;
+    // Hack for trait aliasing
+    trait Parser: FnMut(Vec<u8>) -> Parsed + Clone {}
+    impl<T: FnMut(Vec<u8>) -> Parsed + Clone> Parser for T {}
+    fn eof(mut f: impl Parser, inp: Vec<u8>) -> bool {
+        match f(inp) {
+            Some((_, vs)) if vs.is_empty() => true,
+            _ => false,
+        }
+    }
+    fn satisfy(mut b: impl FnMut(u8) -> bool + Clone) -> impl Parser {
+        move |inp: Vec<u8>| {
+            let mut s = inp.into_iter();
+            match s.next() {
+                Some(v) if b(v) => Some((vec![v], s.collect())),
+                _ => None,
+            }
+        }
+    }
+    fn and(mut f: impl Parser, mut g: impl Parser) -> impl Parser {
+        move |inp| {
+            if let Some((mut v, vs)) = f(inp) {
+                if let Some((u, us)) = g(vs) {
+                    v.extend(u);
+                    return Some((v, us));
+                }
+            }
+            None
+        }
+    }
+    fn or(mut f: impl Parser, mut g: impl Parser) -> impl Parser {
+        move |inp: Vec<u8>| {
+            if let Some((mut v, vs)) = f(inp.clone()) {
+                Some((v, vs))
+            } else {
+                g(inp)
+            }
+        }
+    }
+    fn both_or_f(mut f: impl Parser, mut g: impl Parser) -> impl Parser {
+        move |inp: Vec<u8>| {
+            if let Some((mut v, vs)) = f(inp.clone()) {
+                if let Some((u, us)) = g(vs) {
+                    v.extend(u);
+                    return Some((v, us));
+                }
+            }
+            f(inp)
+        }
+    }
+    fn both_or_g(mut f: impl Parser, mut g: impl Parser) -> impl Parser {
+        move |inp: Vec<u8>| {
+            if let Some((mut v, vs)) = f(inp.clone()) {
+                if let Some((u, us)) = g(vs) {
+                    v.extend(u);
+                    return Some((v, us));
+                }
+            }
+            g(inp)
+        }
+    }
+    fn many(mut f: impl Parser) -> impl Parser {
+        move |mut inp: Vec<u8>| {
+            let mut fin = Vec::new();
+            loop {
+                if let Some(outp) = f(inp.clone()) {
+                    fin.extend(outp.0);
+                    inp = outp.1;
+                } else {
+                    return Some((fin, inp));
+                }
+            }
+        }
+    }
+    fn some(mut b: impl Parser) -> impl Parser {
+        and(b.clone(), many(b))
+    }
+    fn optional(mut f: impl Parser, mut g: impl Parser) -> impl Parser {
+        both_or_g(f, g)
+    }
+    fn sign(ch: Vec<u8>) -> impl Parser {
+        satisfy(move |x| ch.contains(&x))
+    }
+    fn integer() -> impl Parser {
+        optional(
+            sign(vec![b'+', b'-']),
+            some(satisfy(|x| x.is_ascii_digit())),
+        )
+    }
+    fn decimal() -> impl Parser {
+        let int = some(satisfy(|x| x.is_ascii_digit()));
+        optional(
+            sign(vec![b'+', b'-']),
+            or(
+                optional(int.clone(), and(sign(vec![b'.']), int.clone())),
+                and(int, sign(vec![b'.'])),
+            ),
+        )
+    }
+    eof(
+        both_or_f(
+            or(decimal(), integer()),
+            and(sign(vec![b'e', b'E']), integer()),
+        ),
+        s.bytes().collect(),
+    )
+}
+
 /// 67. Add Binary - `Easy`
 ///
 /// # Idea
@@ -418,7 +567,7 @@ pub fn add_binary(a: String, b: String) -> String {
 /// 72. Edit Distance - `Hard`
 ///
 /// # Idea
-/// _
+/// Work in Progress
 ///
 /// # Conclusion
 /// _

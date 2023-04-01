@@ -32,6 +32,7 @@ LeetCode into files, such as function definition and examples
 - [x] 3. Longest Substring Without Repeating Characters
 - [x] 12. Integer to Roman
 - [x] 38. Count and Say
+- [x] 64. Minimum Path Sum
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator
@@ -43,5 +44,6 @@ LeetCode into files, such as function definition and examples
 
 - [x] 4. Median of Two Sorted Arrays
 - [x] 10. Regular Expression Matching
+- [x] 65. Valid Number
 - [ ] 72. Edit Distance
 - [x] 32. Longest Valid Parentheses
