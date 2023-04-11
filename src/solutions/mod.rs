@@ -1006,6 +1006,29 @@ pub fn divide_array(nums: Vec<i32>) -> bool {
     map.values().all(|x| x % 2 == 0)
 }
 
+/// 2390. Removing Stars From a String - `Medium`
+///
+/// # Idea
+/// If we loop from right, we can just have a single integer that keeps track of how many letters
+/// to remove. This would be done by simply having stars add to integer, and letters requiring
+/// removal to substract from integer.
+///
+/// # Conclusion
+/// Essentially a perfect solution, speed-wise it is one of the fastest, and all the other
+/// solutions still use the same model anyway.
+pub fn remove_stars(s: String) -> String {
+    let mut fin = Vec::new();
+    let mut stars = 0;
+    for c in s.bytes().rev() {
+        match c {
+            b'*' => stars += 1,
+            _ if stars > 0 => stars -= 1,
+            _ => fin.push(c),
+        }
+    }
+    fin.into_iter().rev().map(|c| c as char).collect()
+}
+
 /// 2404. Most Frequent Even Element - `Easy`
 ///
 /// # Idea

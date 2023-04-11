@@ -458,6 +458,15 @@ fn da_2207() {
 }
 
 #[test]
+fn rs_2390() {
+    group_test!(
+        remove_stars, and apply fully String::from,
+        "leet**cod*e"; "lecoe",
+        "erase*****"; ""
+    );
+}
+
+#[test]
 fn mfe_2404() {
     group_test!(
         most_frequent_even,

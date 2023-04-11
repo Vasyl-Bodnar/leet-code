@@ -39,6 +39,7 @@ LeetCode into files, such as function definition and examples
 - [x] 1011. Capacity To Ship Packages Within D Days
 - [x] 1299. Replace Elements with Greatest Element on Right Side
 - [x] 2055. Plates Between Candles
+- [x] 2390. Removing Stars From a String
 
 ### Hard
 
