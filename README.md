@@ -34,6 +34,7 @@ LeetCode into files, such as function definition and examples
 - [x] 12. Integer to Roman
 - [x] 38. Count and Say
 - [x] 64. Minimum Path Sum
+- [x] 71. Simplify Path
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
 - [x] 991. Broken Calculator

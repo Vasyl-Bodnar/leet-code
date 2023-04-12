@@ -123,7 +123,8 @@ pub fn add_two_numbers(
 /// string.
 ///
 /// # Conclusion
-/// _
+/// Windows achieved, and it works as one of the better solutions, however, it does not unmake this
+/// solution an annoyance in implementation.
 pub fn length_of_longest_substring(s: String) -> i32 {
     let mut pos = [0; 128];
     let (mut fin, mut i) = (0, 0);
@@ -179,10 +180,11 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
 ///
 /// # Idea
 /// Tried iterators, and as always in these cases they are a bit too restrictive and lack certain
-/// methods to complete this with ease.
+/// methods to complete this with ease. Final solution was to navigate over string directly relying
+/// on a couple of flags and then modifying the final output based on them.
 ///
 /// # Conclusion
-/// _
+/// Overall, a good solution, though it is not a complex problem to begin with.
 pub fn my_atoi(s: String) -> i32 {
     let (mut start, mut fin, mut pos) = (false, 0i64, true);
     for c in s.bytes() {
@@ -344,6 +346,7 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
 /// # Idea
 /// Go through the string, and check for all parentheses pairs, zeroing in case of broken pairs (i.e.
 /// "((" or "))"), then do the same thing for reverse string.
+///
 /// # Conclusion
 /// Simple and fast solution, which unlike a stack solution, uses basically no space at all.
 pub fn longest_valid_parentheses(s: String) -> i32 {
@@ -601,6 +604,45 @@ pub fn add_binary(a: String, b: String) -> String {
     .collect()
 }
 
+/// 71. Simplify Path - `Medium`
+///
+/// # Idea
+/// Very simple idea, go in reverse through the path, keep track of how many times back we have to
+/// go (`..`), and if it is above one, then the next folder (prev from left to right) would simply be
+/// removed. `.` and `/` can simply be ignored and `/` will be automatically added to each folder name.
+/// At the end there is reverse, concat and final check, so in case there were no folders it would just
+/// give root.
+///
+/// # Conclusion
+/// Overall one of the fastest solutions, most people had something similar in nature, even if
+/// methods and certain specifics were different.
+pub fn simplify_path(path: String) -> String {
+    let mut fin = vec![];
+    let mut back = 0;
+    for s in path.split('/').rev() {
+        match s {
+            ".." => {
+                back += 1;
+            }
+            "." | "" => (),
+            _ if back > 0 => {
+                back -= 1;
+            }
+            _ => {
+                fin.push(s);
+                fin.push("/")
+            }
+        };
+    }
+    fin.reverse();
+    let fin = fin.concat();
+    if !fin.contains('/') {
+        String::from("/")
+    } else {
+        fin
+    }
+}
+
 /// 72. Edit Distance - `Hard`
 ///
 /// # Idea
@@ -633,7 +675,6 @@ pub fn min_distance(word1: String, word2: String) -> i32 {
 /// for finding the smallest one.
 ///
 /// # Conclusion
-///
 /// The solution is indeed a binary search, I used a recursive solution, though
 /// the one that is usually used is while loop based, with little difference in perfomance.
 pub fn find_min(nums: Vec<i32>) -> i32 {

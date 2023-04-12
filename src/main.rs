@@ -293,6 +293,16 @@ fn ab_67() {
 }
 
 #[test]
+fn sp_71() {
+    group_test!(
+        simplify_path, and apply String::from,
+        "/home/"; "/home",
+        "/../"; "/",
+        "/home//foo/"; "/home/foo"
+    );
+}
+
+#[test]
 fn md_72() {
     group_test!(
         min_distance, and apply String::from,
