@@ -6,6 +6,7 @@ use std::cmp::{max, min};
 use std::collections::HashMap;
 use std::io::Read;
 use std::iter;
+use std::ops::Neg;
 use std::str::Chars;
 
 pub mod util;
@@ -172,6 +173,42 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     } else {
         mix[len / 2] as f64
     }
+}
+
+/// 8. String to Integer (atoi) - `Medium`
+///
+/// # Idea
+/// Tried iterators, and as always in these cases they are a bit too restrictive and lack certain
+/// methods to complete this with ease.
+///
+/// # Conclusion
+/// _
+pub fn my_atoi(s: String) -> i32 {
+    let (mut start, mut fin, mut pos) = (false, 0i64, true);
+    for c in s.bytes() {
+        match c {
+            b'0'..=b'9' => {
+                start = true;
+                fin = fin * 10 + (c - 48) as i64;
+                if fin > i32::MAX as i64 {
+                    break;
+                }
+            }
+            _ if start => break,
+            b' ' => continue,
+            b'+' => {
+                pos = true;
+                start = true;
+            }
+            b'-' => {
+                pos = false;
+                start = true;
+                println!("{pos}")
+            }
+            _ => break,
+        }
+    }
+    if pos { fin } else { -fin }.clamp(i32::MIN.into(), i32::MAX.into()) as i32
 }
 
 /// 10. Regular Expression Matching - `Hard`

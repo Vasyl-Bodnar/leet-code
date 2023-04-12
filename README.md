@@ -30,6 +30,7 @@ LeetCode into files, such as function definition and examples
 
 - [x] 2. Add Two Numbers
 - [x] 3. Longest Substring Without Repeating Characters
+- [x] 8. String to Integer (atoi)
 - [x] 12. Integer to Roman
 - [x] 38. Count and Say
 - [x] 64. Minimum Path Sum

@@ -168,6 +168,16 @@ fn fmsa_4() {
 }
 
 #[test]
+fn ma_8() {
+    group_test!(
+        my_atoi, and apply String::from,
+        "42"; 42,
+        "   -42"; -42,
+        "4193 with words"; 4193
+    );
+}
+
+#[test]
 fn im_10() {
     group_test!(
         is_match, and apply String::from,
