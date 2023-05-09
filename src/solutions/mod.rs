@@ -8,10 +8,8 @@ use std::io::Read;
 use std::iter;
 use std::ops::Neg;
 use std::str::Chars;
-
 pub mod util;
 use util::*;
-
 /// 1. Two Sum - `Easy`
 ///
 /// # Praise
@@ -123,8 +121,7 @@ pub fn add_two_numbers(
 /// string.
 ///
 /// # Conclusion
-/// Windows achieved, and it works as one of the better solutions, however, it does not unmake this
-/// solution an annoyance in implementation.
+/// _
 pub fn length_of_longest_substring(s: String) -> i32 {
     let mut pos = [0; 128];
     let (mut fin, mut i) = (0, 0);
@@ -180,11 +177,10 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
 ///
 /// # Idea
 /// Tried iterators, and as always in these cases they are a bit too restrictive and lack certain
-/// methods to complete this with ease. Final solution was to navigate over string directly relying
-/// on a couple of flags and then modifying the final output based on them.
+/// methods to complete this with ease.
 ///
 /// # Conclusion
-/// Overall, a good solution, though it is not a complex problem to begin with.
+/// _
 pub fn my_atoi(s: String) -> i32 {
     let (mut start, mut fin, mut pos) = (false, 0i64, true);
     for c in s.bytes() {
@@ -346,7 +342,6 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
 /// # Idea
 /// Go through the string, and check for all parentheses pairs, zeroing in case of broken pairs (i.e.
 /// "((" or "))"), then do the same thing for reverse string.
-///
 /// # Conclusion
 /// Simple and fast solution, which unlike a stack solution, uses basically no space at all.
 pub fn longest_valid_parentheses(s: String) -> i32 {
@@ -400,6 +395,40 @@ pub fn count_and_say(n: i32) -> String {
         }
     }
     format!("{fin}{count}{}", cur as char)
+}
+
+/// 54. Spiral Matrix - `Medium`
+///
+/// # Idea
+/// Take out the edges, and recurse inside, handle the basic cases, where the solution is just
+/// flattening it.
+///
+/// # Conclusion
+/// Generally solid solution and is relatively fast
+pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
+    if matrix.len() < 2 || matrix[0].len() < 2 {
+        return matrix.into_iter().flatten().collect();
+    }
+    let mut fin = matrix[0].clone();
+    let last = matrix.len() - 1;
+    for i in 1..last {
+        if let Some(v) = matrix[i].last() {
+            fin.push(*v)
+        }
+    }
+    fin.extend(&mut matrix[last].iter().rev());
+    for i in (1..last).rev() {
+        if let Some(v) = matrix[i].first() {
+            fin.push(*v)
+        }
+    }
+    fin.append(&mut spiral_order(
+        matrix[1..last]
+            .into_iter()
+            .map(|arr| arr[1..arr.len() - 1].to_owned())
+            .collect(),
+    ));
+    fin
 }
 
 /// 64. Minimum Path Sum - `Medium`
@@ -675,6 +704,7 @@ pub fn min_distance(word1: String, word2: String) -> i32 {
 /// for finding the smallest one.
 ///
 /// # Conclusion
+///
 /// The solution is indeed a binary search, I used a recursive solution, though
 /// the one that is usually used is while loop based, with little difference in perfomance.
 pub fn find_min(nums: Vec<i32>) -> i32 {

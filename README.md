@@ -33,6 +33,7 @@ LeetCode into files, such as function definition and examples
 - [x] 8. String to Integer (atoi)
 - [x] 12. Integer to Roman
 - [x] 38. Count and Say
+- [x] 54. Spiral Matrix
 - [x] 64. Minimum Path Sum
 - [x] 71. Simplify Path
 - [x] 153. Find Minimum in Rotated Sorted Array
