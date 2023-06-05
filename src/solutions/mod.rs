@@ -792,6 +792,74 @@ pub fn has_alternating_bits(n: i32) -> bool {
     .contains(&n)
 }
 
+/// 877. Stone Game - `Medium`
+///
+/// # Idea
+/// ```
+/// true
+/// ```
+/// Otherwise, assuming that not every answer is true
+/// Check two possibilities, predict higher for Alice and Bob, calculate gains
+/// simple loop, beautfully simple
+///
+/// # Conclusion
+/// Generally the two solutions are dynamic programming and the recursion,
+/// I personally done recursion, though naturally converted to an iterative approach for better
+/// perfomance and because some of the inputs require a lot of depth which is just not going to
+/// play nice with Rust.
+pub fn stone_game(piles: Vec<i32>) -> bool {
+    let (mut piles, mut alice, mut gains) = (piles, true, 0);
+    loop {
+        if piles.is_empty() {
+            break;
+        }
+        if alice {
+            gains += max(
+                if let Some((x, xs)) = piles.split_first() {
+                    let x = *x;
+                    piles = xs.to_vec();
+                    alice = !alice;
+                    x
+                } else {
+                    0
+                },
+                if let Some((x, xs)) = piles.split_last() {
+                    let x = *x;
+                    piles = xs.to_vec();
+                    alice = !alice;
+                    x
+                } else {
+                    0
+                },
+            )
+        } else {
+            gains -= max(
+                if let Some((x, xs)) = piles.split_first() {
+                    let x = *x;
+                    piles = xs.to_vec();
+                    alice = !alice;
+                    x
+                } else {
+                    0
+                },
+                if let Some((x, xs)) = piles.split_last() {
+                    let x = *x;
+                    piles = xs.to_vec();
+                    alice = !alice;
+                    x
+                } else {
+                    0
+                },
+            )
+        }
+    }
+    if gains > 0 {
+        true
+    } else {
+        false
+    }
+}
+
 /// 941. Valid Mountain Array - `Easy`
 ///
 /// # Idea
@@ -882,6 +950,84 @@ pub fn ship_within_days(weights: Vec<i32>, days: i32) -> i32 {
         }
     }
     left
+}
+
+/// 1140. Stone Game II - `Medium`
+///
+/// # Idea
+/// _
+///
+/// # Conclusion
+/// _
+pub fn stone_game_ii(piles: Vec<i32>) -> i32 {
+    let mut piles = piles;
+    let mut m = 1;
+    let mut alice = true;
+    let (mut gain, mut alice_gains, mut bob_gains) = (vec![], 0, 0);
+    loop {
+        if piles.is_empty() {
+            break;
+        }
+        if m > piles.len() {
+            if alice {
+                return alice_gains + piles.into_iter().sum::<i32>();
+            } else {
+                break;
+            }
+        }
+        for x in 1..=2 * m {
+            let res: i32 = piles.iter().take(x).sum();
+            gain.push((x, res));
+        }
+        let best = gain
+            .iter()
+            .reduce(|acc, res| if res.1 > acc.1 { res } else { acc })
+            .unwrap();
+        if alice {
+            alice_gains += best.1;
+        } else {
+            bob_gains += best.1;
+        }
+        alice ^= true;
+        piles = piles[best.0..].to_vec();
+        m = max(m, best.0);
+        //dbg!(&piles);
+    }
+    alice_gains
+}
+
+/// 1232. Check If It Is a Straight Line - `Easy`
+///
+/// # Idea
+/// Original Attempt:
+/// Make a line equation and use it to check each point by whether they satisfy it or not, have to
+/// also explicitly handle the case where x does not change, that is a vertical line
+///
+/// New Attempt:
+/// Take 3 points, and check if their slopes match as expected
+/// # Conclusion
+/// In general both solution had essentially the same speed and memory, though the newer one is
+/// smaller and a bit more clear, especially if function is extracted and matched into nicer xs and
+/// ys
+pub fn check_straight_line(coordinates: Vec<Vec<i32>>) -> bool {
+    // match (&coordinates[0][..], &coordinates[1][..]) {
+    //     ([x1, y1], [x2, y2]) if x2 == x1 => {
+    //         let i = *x1;
+    //         coordinates.into_iter().all(|p| p[0] == i)
+    //     }
+    //     ([x1, y1], [x2, y2]) => {
+    //         let m = ((y2 - y1) as f32) / ((x2 - x1) as f32);
+    //         let i = (*y1 as f32) - m * (*x1 as f32);
+    //         coordinates
+    //             .into_iter()
+    //             .all(|p| p[1] as f32 == m * (p[0] as f32) + i)
+    //     }
+    //     _ => unreachable!(),
+    // }
+    coordinates.windows(3).all(|ps| {
+        (ps[1][0] - ps[0][0]) * (ps[2][1] - ps[1][1])
+            == (ps[2][0] - ps[1][0]) * (ps[1][1] - ps[0][1])
+    })
 }
 
 /// 1299. Replace Elements with Greatest Element on Right Side - `Medium`

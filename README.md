@@ -16,6 +16,7 @@ LeetCode into files, such as function definition and examples
 - [x] 168. Excel Sheet Column Title
 - [x] 693. Binary Number with Alternating Bits
 - [x] 941. Valid Mountain Array
+- [x] 1232. Check If It Is a Straight Line
 - [x] 1304. Find N Unique Integers Sum up to Zero
 - [x] 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence
 - [x] 1636. Sort Array by Increasing Frequency
@@ -38,8 +39,10 @@ LeetCode into files, such as function definition and examples
 - [x] 71. Simplify Path
 - [x] 153. Find Minimum in Rotated Sorted Array
 - [x] 683. Repeated String Match
+- [x] 877. Stone Game
 - [x] 991. Broken Calculator
 - [x] 1011. Capacity To Ship Packages Within D Days
+- [ ] 1140. Stone Game II
 - [x] 1299. Replace Elements with Greatest Element on Right Side
 - [x] 2055. Plates Between Candles
 - [x] 2390. Removing Stars From a String

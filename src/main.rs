@@ -118,6 +118,12 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
+        stone_game_ii,
+        vec![2,7,9,4,4]; 10,
+        vec![1,2,3,4,5,100]; 104
+    );
+
+    group_print!(
         min_distance, and apply String::from,
         "horse", "ros"; 3,
         "intention", "execution"; 5
@@ -282,12 +288,12 @@ fn in_65() {
         "e"; false,
         "."; false,
         "abc"; false,
-        "1a"; false, 
-        "1e"; false, 
-        "e3"; false, 
-        "99e2.5"; false, 
-        "--6"; false, 
-        "-+3"; false, 
+        "1a"; false,
+        "1e"; false,
+        "e3"; false,
+        "99e2.5"; false,
+        "--6"; false,
+        "-+3"; false,
         "95a54e53"; false
     );
 }
@@ -366,6 +372,16 @@ fn hab_693() {
 }
 
 #[test]
+fn sg_877() {
+    group_test!(
+        stone_game,
+        vec![5,3,4,5]; true,
+        vec![3,7,2,3]; true,
+        vec![3,7,3,2,5,1,6,3,10,7]; true
+    );
+}
+
+#[test]
 fn vma_941() {
     group_test!(
         valid_mountain_array,
@@ -393,6 +409,24 @@ fn swd_1011() {
         vec![1,2,3,4,5,6,7,8,9,10], 5; 15,
         vec![3,2,2,4,1,4], 3; 6,
         vec![1,2,3,1,1], 4; 3
+    );
+}
+
+#[test]
+fn sgi_1140() {
+    group_test!(
+        stone_game_ii,
+        vec![2,7,9,4,4]; 10,
+        vec![1,2,3,4,5,100]; 104
+    );
+}
+
+#[test]
+fn csl_1232() {
+    group_test!(
+        check_straight_line,
+        vec![vec![1,2],vec![2,3],vec![3,4],vec![4,5],vec![5,6],vec![6,7]]; true,
+        vec![vec![1,1],vec![2,2],vec![3,4],vec![4,5],vec![5,6],vec![7,7]]; false
     );
 }
 
