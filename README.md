@@ -15,6 +15,7 @@ LeetCode into files, such as function definition and examples
 - [x] 67. Add Binary
 - [x] 168. Excel Sheet Column Title
 - [x] 693. Binary Number with Alternating Bits
+- [x] 744. Find Smallest Letter Greater Than Target
 - [x] 941. Valid Mountain Array
 - [x] 1232. Check If It Is a Straight Line
 - [x] 1304. Find N Unique Integers Sum up to Zero

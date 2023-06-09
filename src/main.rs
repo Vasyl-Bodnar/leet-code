@@ -372,6 +372,16 @@ fn hab_693() {
 }
 
 #[test]
+fn ngl_744() {
+    group_print!(
+        next_greatest_letter,
+        vec!['c', 'f', 'j'], 'a'; 'c',
+        vec!['c', 'f', 'j'], 'c'; 'f',
+        vec!['x', 'x', 'y', 'y'], 'z'; 'x'
+    );
+}
+
+#[test]
 fn sg_877() {
     group_test!(
         stone_game,

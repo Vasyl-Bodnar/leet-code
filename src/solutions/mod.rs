@@ -792,6 +792,23 @@ pub fn has_alternating_bits(n: i32) -> bool {
     .contains(&n)
 }
 
+/// 744. Find Smallest Letter Greater Than Target - `Easy`
+///
+/// # Idea
+/// One way to solve it would be direct binary search implementation.
+/// For this one I experiment with my simple reduce loop and tiny partition_point version,
+/// which is basically binary search anyway
+///
+/// # Conclusion
+/// Original reduce loop was not very fast, but it did solve the problem in reasonable time.
+/// My second attempt with rust's partition_point naturally is `beats 100%` fast
+pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
+    match letters.partition_point(|x| *x <= target) {
+        i if i == letters.len() => letters[0],
+        i => letters[i],
+    }
+}
+
 /// 877. Stone Game - `Medium`
 ///
 /// # Idea
