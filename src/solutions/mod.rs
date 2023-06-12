@@ -747,12 +747,33 @@ pub fn convert_to_title(column_number: i32) -> String {
 /// 228. Summary Ranges - `Easy`
 ///
 /// # Idea
-/// _
+/// Simple iteration, start with empty array and current node
+/// Iteratate, if n is +1 of our current value, then increase the cur val else append to final vector
+/// In the end do the last append and return
 ///
 /// # Conclusion
-/// _
+/// In general, this is a simple fast solution, could be done more nicely with iterators, but there
+/// would be little point in doing something obvious.
 pub fn summary_ranges(nums: Vec<i32>) -> Vec<String> {
-    todo!() 
+    if nums.is_empty() {
+        return vec![];
+    }
+    let f = |ns: (i32, i32)| match ns {
+        (a, b) if a == b => format!("{a}"),
+        (a, b) => format!("{a}->{b}"),
+    };
+    let mut fin = vec![];
+    let mut cur = (nums[0], nums[0]);
+    for n in nums.into_iter().skip(1) {
+        if cur.1 + 1 == n {
+            cur.1 = n;
+        } else {
+            fin.push(f(cur));
+            cur = (n, n);
+        }
+    }
+    fin.push(f(cur));
+    fin
 }
 
 /// 500. Keyboard Row - `Easy`

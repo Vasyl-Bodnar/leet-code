@@ -118,12 +118,6 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
-        summary_ranges,
-        vec![0,1,2,4,5,7]; vec!["0->2","4->5","7"],
-        vec![0,2,3,4,6,8,9]; vec!["0","2->4","6","8->9"]
-    );
-
-    group_print!(
         stone_game_ii,
         vec![2,7,9,4,4]; 10,
         vec![1,2,3,4,5,100]; 104
@@ -356,10 +350,10 @@ fn ctt_168() {
 
 #[test]
 fn sr_228() {
-    group_test!(
+    group_print!(
         summary_ranges,
-        vec![0,1,2,4,5,7]; vec!["0->2","4->5","7"],
-        vec![0,2,3,4,6,8,9]; vec!["0","2->4","6","8->9"]
+        vec![0,1,2,4,5,7]; vec![String::from("0->2"),String::from("4->5"),String::from("7")],
+        vec![0,2,3,4,6,8,9]; vec![String::from("0"),String::from("2->4"),String::from("6"),String::from("8->9")]
     );
 }
 
