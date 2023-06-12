@@ -3,7 +3,8 @@
 //// instead of just copying a better solution, unless my original was quite bad or did not pass all cases
 #![allow(unused)]
 use std::cmp::{max, min};
-use std::collections::HashMap;
+use std::collections::hash_map::RandomState;
+use std::collections::{HashMap, HashSet};
 use std::io::Read;
 use std::iter;
 use std::ops::Neg;
@@ -741,6 +742,41 @@ pub fn convert_to_title(column_number: i32) -> String {
         cl /= 26;
     }
     fin.chars().rev().collect()
+}
+
+/// 228. Summary Ranges - `Easy`
+///
+/// # Idea
+/// _
+///
+/// # Conclusion
+/// _
+pub fn summary_ranges(nums: Vec<i32>) -> Vec<String> {
+    todo!() 
+}
+
+/// 500. Keyboard Row - `Easy`
+///
+/// # Idea
+/// Simple filter with sets acting as the main way of checking the requirements
+///
+/// # Conclusion
+/// Works rather well, though is not the fastest solution, my previous implementation was similar.
+pub fn find_words(words: Vec<String>) -> Vec<String> {
+    let (one, two, three) = (
+        HashSet::from_iter("qwertyuiop".bytes()),
+        HashSet::from_iter("asdfghjkl".bytes()),
+        HashSet::from_iter("zxcvbnm".bytes()),
+    );
+    let chk = |s: String| {
+        let str = HashSet::<_, RandomState>::from_iter(s.to_lowercase().bytes());
+        if one.is_superset(&str) || two.is_superset(&str) || three.is_superset(&str) {
+            Some(s)
+        } else {
+            None
+        }
+    };
+    words.into_iter().filter_map(chk).collect()
 }
 
 /// 686. Repeated String Match - `Medium`

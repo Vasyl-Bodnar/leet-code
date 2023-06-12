@@ -14,6 +14,8 @@ LeetCode into files, such as function definition and examples
 - [x] 14. Longest Common Prefix
 - [x] 67. Add Binary
 - [x] 168. Excel Sheet Column Title
+- [ ] 228. Summary Ranges
+- [x] 500. Keyboard Row
 - [x] 693. Binary Number with Alternating Bits
 - [x] 744. Find Smallest Letter Greater Than Target
 - [x] 941. Valid Mountain Array

@@ -118,6 +118,12 @@ fn print_and_check<T: Debug + PartialEq>(input: &str, output: T, expected: T) {
 
 fn main() {
     group_print!(
+        summary_ranges,
+        vec![0,1,2,4,5,7]; vec!["0->2","4->5","7"],
+        vec![0,2,3,4,6,8,9]; vec!["0","2->4","6","8->9"]
+    );
+
+    group_print!(
         stone_game_ii,
         vec![2,7,9,4,4]; 10,
         vec![1,2,3,4,5,100]; 104
@@ -345,6 +351,26 @@ fn ctt_168() {
         1; String::from("A"),
         28; String::from("AB"),
         701; String::from("ZY")
+    );
+}
+
+#[test]
+fn sr_228() {
+    group_test!(
+        summary_ranges,
+        vec![0,1,2,4,5,7]; vec!["0->2","4->5","7"],
+        vec![0,2,3,4,6,8,9]; vec!["0","2->4","6","8->9"]
+    );
+}
+
+#[test]
+fn fw_500() {
+    let f = |v: Vec<&str>| v.into_iter().map(String::from).collect();
+    group_print!(
+        find_words, and apply fully f,
+        vec!["Hello", "Alaska", "Dad", "Peace"]; vec!["Alaska", "Dad"],
+        vec!["omk"]; vec![],
+        vec!["adsdf", "sfd"]; vec!["adsdf", "sfd"]
     );
 }
 
