@@ -48,6 +48,8 @@ LeetCode into files, such as function definition and examples
 - [ ] 1140. Stone Game II
 - [x] 1299. Replace Elements with Greatest Element on Right Side
 - [x] 2055. Plates Between Candles
+- [x] 2352. Equal Row and Column Pairs
+- [x] 2353. Design a Food Rating System
 - [x] 2390. Removing Stars From a String
 
 ### Hard

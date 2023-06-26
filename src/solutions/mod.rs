@@ -2,9 +2,9 @@
 //// Solutions are rarely best, I usually keep slower or less efficient but still pretty good personal solution,
 //// instead of just copying a better solution, unless my original was quite bad or did not pass all cases
 #![allow(unused)]
-use std::cmp::{max, min};
+use std::cmp::{max, min, Ordering};
 use std::collections::hash_map::RandomState;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::io::Read;
 use std::iter;
 use std::ops::Neg;
@@ -1332,6 +1332,130 @@ pub fn divide_array(nums: Vec<i32>) -> bool {
         map.insert(num, map.get(&num).unwrap_or(&0) + 1);
     }
     map.values().all(|x| x % 2 == 0)
+}
+
+/// 2352. Equal Row and Column Pairs - `Medium`
+///
+/// # Idea
+/// HashMap, why not, just memorize rows, or cols and then just iterate over the other and check
+/// Originally solved by using a simple and direct method of just checking all combinations
+///
+/// # Conclusion
+/// Since HashMap can help you keep track of how many times the same column appears it indeed
+/// perfoms significantly better than a direct comparison of each row and column. It is a bit
+/// unintuitive from the problem description however as you would not imagine that hashmaps
+/// would be necessary from the 2 small examples
+pub fn equal_pairs(grid: Vec<Vec<i32>>) -> i32 {
+    let mut cols = HashMap::new();
+    for j in (0..grid.len()) {
+        let mut v = Vec::with_capacity(grid.len());
+        for i in (0..grid.len()) {
+            v.push(grid[i][j]);
+        }
+        *cols.entry(v).or_insert(0) += 1;
+    }
+    let mut fin = 0;
+    for r in grid {
+        fin += cols.get(&r).unwrap_or(&0);
+    }
+    fin
+}
+
+/// 2353. Design a Food Rating System - `Medium`
+///
+/// # Idea
+/// Needs more work, currently just a found solution, though I do not like this one that much
+///
+/// # Conclusion
+/// Horrible run time, but it is just like everyone else, so that was expected, more work is needed
+/// to make it in my image, rather than just adopting an existing solution
+#[derive(Clone)]
+struct RatedFood {
+    food: String,
+    rating: i32,
+}
+
+impl Ord for RatedFood {
+    fn cmp(&self, other: &Self) -> Ordering {
+        (self.rating, &other.food).cmp(&(other.rating, &self.food))
+    }
+}
+
+impl PartialOrd for RatedFood {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        if self.rating != other.rating {
+            Some(self.rating.cmp(&other.rating))
+        } else {
+            Some(other.food.cmp(&self.food))
+        }
+    }
+}
+
+impl Eq for RatedFood {}
+
+impl PartialEq for RatedFood {
+    fn eq(&self, other: &Self) -> bool {
+        self.food == other.food && self.rating == other.rating
+    }
+}
+struct FoodRatings {
+    cuisine_to_foods: HashMap<String, BTreeSet<RatedFood>>,
+    name_to_food: HashMap<String, RatedFood>,
+    name_to_cuisine: HashMap<String, String>,
+}
+
+impl FoodRatings {
+    fn new(foods: Vec<String>, cuisines: Vec<String>, ratings: Vec<i32>) -> Self {
+        let mut cuisine_to_foods = HashMap::new();
+        let mut name_to_food = HashMap::new();
+        let mut name_to_cuisine = HashMap::new();
+        for ((food, cuisine), rating) in foods
+            .into_iter()
+            .zip(cuisines.into_iter())
+            .zip(ratings.into_iter())
+        {
+            let rated_food = RatedFood {
+                food: food.clone(),
+                rating,
+            };
+            cuisine_to_foods
+                .entry(cuisine.to_owned())
+                .or_insert(BTreeSet::new())
+                .insert(rated_food.clone());
+            name_to_cuisine.insert(food.clone(), cuisine);
+            name_to_food.insert(food, rated_food);
+        }
+        FoodRatings {
+            cuisine_to_foods,
+            name_to_food,
+            name_to_cuisine,
+        }
+    }
+
+    fn change_rating(&mut self, food: String, new_rating: i32) {
+        if let Some(rated_food) = self.name_to_food.get_mut(&food) {
+            if let Some(foods) = self
+                .name_to_cuisine
+                .get(&food)
+                .and_then(|k| self.cuisine_to_foods.get_mut(k))
+            {
+                foods.remove(rated_food);
+                rated_food.rating = new_rating;
+                foods.insert(rated_food.clone());
+            }
+        }
+    }
+
+    fn highest_rated(&self, cuisine: String) -> String {
+        self.cuisine_to_foods
+            .get(&cuisine)
+            .unwrap()
+            .iter()
+            .last()
+            .unwrap()
+            .food
+            .clone()
+    }
 }
 
 /// 2390. Removing Stars From a String - `Medium`

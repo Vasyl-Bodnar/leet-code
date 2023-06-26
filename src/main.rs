@@ -551,6 +551,23 @@ fn da_2207() {
 }
 
 #[test]
+fn ep_2352() {
+    group_test!(
+        equal_pairs,
+        vec![vec![3,2,1],vec![1,7,6],vec![2,7,7]]; 1,
+        vec![vec![3,1,2,2],vec![1,4,4,5],vec![2,4,2,2],vec![2,4,2,2]]; 3
+    );
+}
+
+#[test]
+fn s_2353() {
+    // group_test!(
+    //     struct FoodRatings { /**   * `&self` means the method takes an immutable reference.  * If you need a mutable reference, change it to `&mut self` instead.  */ impl FoodRatings {     fn new, and apply String::from,
+    //     "FoodRatings", "highestRated", "highestRated", "changeRating", "highestRated", "changeRating", "highestRated", "kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi", "korean", "japanese", "japanese", "greek", "japanese", "korean", 9,, 12,, 8,, 15,, 14,, 7, "korean", "japanese", "sushi", 16, "japanese", "ramen", 16, "japanese", "kimchi", "ramen", "sushi"; "ramen"
+    // );
+}
+
+#[test]
 fn rs_2390() {
     group_test!(
         remove_stars, and apply fully String::from,
